@@ -20,7 +20,7 @@ namespace FormRecognizerQuickStart
         // SAS Url to Azure Blob Storage container; this used for training the custom model
         // For help using SAS see: 
         // https://docs.microsoft.com/en-us/azure/storage/common/storage-dotnet-shared-access-signature-part-1
-        private const string trainingDataUrl = "https://demostorageiliya.blob.core.windows.net/inputblob/";
+        private const string trainingDataUrl = "https://demostorageiliya.blob.core.windows.net/inputblob/survey34.pdf";
 
         // Local path to a form to be analyzed
         // Any one or all of file formats (pdf,jpg or png)can be used with a trained model. 
