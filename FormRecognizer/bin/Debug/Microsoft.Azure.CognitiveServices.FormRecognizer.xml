@@ -1,0 +1,1154 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Azure.CognitiveServices.FormRecognizer</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.ApiKeyServiceClientCredentials">
+            <summary>
+            Allows authentication to the API using a basic apiKey mechanism
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.ApiKeyServiceClientCredentials.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the ApiKeyServiceClientCredentails class
+            </summary>
+            <param name="subscriptionKey">The subscription key to authenticate and authorize as</param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.ApiKeyServiceClientCredentials.ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Add the Basic Authentication Header to each outgoing request
+            </summary>
+            <param name="request">The outgoing request</param>
+            <param name="cancellationToken">A token to cancel the operation</param>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient">
+            <summary>
+            Extracts information from forms and images into structured data based
+            on a model created by a set of representative training forms.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient.SerializationSettings">
+            <summary>
+            The base URI of the service.
+            </summary>
+            <summary>
+            Gets or sets json serialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient.DeserializationSettings">
+            <summary>
+            Gets or sets json deserialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient.Endpoint">
+            <summary>
+            Supported Cognitive Services endpoints (protocol and hostname, for
+            example: https://westus2.api.cognitive.microsoft.com).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient.Credentials">
+            <summary>
+            Subscription credentials which uniquely identify client
+            subscription.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient.TrainCustomModelWithHttpMessagesAsync(Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainRequest,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Train Model
+            </summary>
+            <remarks>
+            The train request must include a source parameter that is either an
+            externally accessible Azure Storage blob container Uri (preferably
+            a Shared Access Signature Uri) or valid path to a data folder in a
+            locally mounted drive. When local paths are specified, they must
+            follow the Linux/Unix path format and be an absolute path rooted to
+            the input mount configuration
+            setting value e.g., if '{Mounts:Input}' configuration setting value
+            is '/input' then a valid source path would be
+            '/input/contosodataset'. All data to be trained are expected to be
+            under the source. Models are trained using documents that are of
+            the following content type - 'application/pdf', 'image/jpeg' and
+            'image/png'."
+            Other content is ignored when training a model.
+            </remarks>
+            <param name='trainRequest'>
+            Request object for training.
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient.GetExtractedKeysWithHttpMessagesAsync(System.Guid,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get Keys
+            </summary>
+            <remarks>
+            Use the API to retrieve the keys that were
+            extracted by the specified model.
+            </remarks>
+            <param name='id'>
+            Model identifier.
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient.GetCustomModelsWithHttpMessagesAsync(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get Models
+            </summary>
+            <remarks>
+            Get information about all trained models
+            </remarks>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient.GetCustomModelWithHttpMessagesAsync(System.Guid,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get Model
+            </summary>
+            <remarks>
+            Get information about a model.
+            </remarks>
+            <param name='id'>
+            Model identifier.
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient.DeleteCustomModelWithHttpMessagesAsync(System.Guid,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Delete Model
+            </summary>
+            <remarks>
+            Delete model artifacts.
+            </remarks>
+            <param name='id'>
+            The identifier of the model to delete.
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient.AnalyzeWithCustomModelWithHttpMessagesAsync(System.Guid,System.IO.Stream,System.Collections.Generic.IList{System.String},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Analyze Form
+            </summary>
+            <remarks>
+            The document to analyze must be of a supported content type -
+            'application/pdf', 'image/jpeg' or 'image/png'. The response
+            contains not just the extracted information of the analyzed form
+            but also information about content that was not extracted along
+            with a reason.
+            </remarks>
+            <param name='id'>
+            Model Identifier to analyze the document with.
+            </param>
+            <param name='formStream'>
+            A pdf document or image (jpg,png) file to analyze.
+            </param>
+            <param name='keys'>
+            An optional list of known keys to extract the values for.
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClientExtensions">
+            <summary>
+            Extension methods for FormRecognizerClient.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClientExtensions.TrainCustomModelAsync(Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient,Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainRequest,System.Threading.CancellationToken)">
+            <summary>
+            Train Model
+            </summary>
+            <remarks>
+            The train request must include a source parameter that is either an
+            externally accessible Azure Storage blob container Uri (preferably a Shared
+            Access Signature Uri) or valid path to a data folder in a locally mounted
+            drive. When local paths are specified, they must follow the Linux/Unix path
+            format and be an absolute path rooted to the input mount configuration
+            setting value e.g., if '{Mounts:Input}' configuration setting value is
+            '/input' then a valid source path would be '/input/contosodataset'. All
+            data to be trained are expected to be under the source. Models are trained
+            using documents that are of the following content type - 'application/pdf',
+            'image/jpeg' and 'image/png'."
+            Other content is ignored when training a model.
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='trainRequest'>
+            Request object for training.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClientExtensions.GetExtractedKeysAsync(Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Get Keys
+            </summary>
+            <remarks>
+            Use the API to retrieve the keys that were
+            extracted by the specified model.
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='id'>
+            Model identifier.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClientExtensions.GetCustomModelsAsync(Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient,System.Threading.CancellationToken)">
+            <summary>
+            Get Models
+            </summary>
+            <remarks>
+            Get information about all trained models
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClientExtensions.GetCustomModelAsync(Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Get Model
+            </summary>
+            <remarks>
+            Get information about a model.
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='id'>
+            Model identifier.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClientExtensions.DeleteCustomModelAsync(Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Delete Model
+            </summary>
+            <remarks>
+            Delete model artifacts.
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='id'>
+            The identifier of the model to delete.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClientExtensions.AnalyzeWithCustomModelAsync(Microsoft.Azure.CognitiveServices.FormRecognizer.IFormRecognizerClient,System.Guid,System.IO.Stream,System.Collections.Generic.IList{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Analyze Form
+            </summary>
+            <remarks>
+            The document to analyze must be of a supported content type -
+            'application/pdf', 'image/jpeg' or 'image/png'. The response contains not
+            just the extracted information of the analyzed form but also information
+            about content that was not extracted along with a reason.
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='id'>
+            Model Identifier to analyze the document with.
+            </param>
+            <param name='formStream'>
+            A pdf document or image (jpg,png) file to analyze.
+            </param>
+            <param name='keys'>
+            An optional list of known keys to extract the values for.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient">
+            <summary>
+            Extracts information from forms and images into structured data based
+            on a model created by a set of representative training forms.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.BaseUri">
+            <summary>
+            The base URI of the service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.SerializationSettings">
+            <summary>
+            Gets or sets json serialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.DeserializationSettings">
+            <summary>
+            Gets or sets json deserialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.Endpoint">
+            <summary>
+            Supported Cognitive Services endpoints (protocol and hostname, for example:
+            https://westus2.api.cognitive.microsoft.com).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.Credentials">
+            <summary>
+            Subscription credentials which uniquely identify client subscription.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.#ctor(System.Net.Http.HttpClient,System.Boolean)">
+            <summary>
+            Initializes a new instance of the FormRecognizerClient class.
+            </summary>
+            <param name='httpClient'>
+            HttpClient to be used
+            </param>
+            <param name='disposeHttpClient'>
+            True: will dispose the provided httpClient on calling FormRecognizerClient.Dispose(). False: will not dispose provided httpClient</param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.#ctor(System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the FormRecognizerClient class.
+            </summary>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.#ctor(System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the FormRecognizerClient class.
+            </summary>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.#ctor(Microsoft.Rest.ServiceClientCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the FormRecognizerClient class.
+            </summary>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.#ctor(Microsoft.Rest.ServiceClientCredentials,System.Net.Http.HttpClient,System.Boolean)">
+            <summary>
+            Initializes a new instance of the FormRecognizerClient class.
+            </summary>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='httpClient'>
+            HttpClient to be used
+            </param>
+            <param name='disposeHttpClient'>
+            True: will dispose the provided httpClient on calling FormRecognizerClient.Dispose(). False: will not dispose provided httpClient</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.#ctor(Microsoft.Rest.ServiceClientCredentials,System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the FormRecognizerClient class.
+            </summary>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.Initialize">
+            <summary>
+            Initializes client properties.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.TrainCustomModelWithHttpMessagesAsync(Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainRequest,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Train Model
+            </summary>
+            <remarks>
+            The train request must include a source parameter that is either an
+            externally accessible Azure Storage blob container Uri (preferably a Shared
+            Access Signature Uri) or valid path to a data folder in a locally mounted
+            drive. When local paths are specified, they must follow the Linux/Unix path
+            format and be an absolute path rooted to the input mount configuration
+            setting value e.g., if '{Mounts:Input}' configuration setting value is
+            '/input' then a valid source path would be '/input/contosodataset'. All
+            data to be trained are expected to be under the source. Models are trained
+            using documents that are of the following content type - 'application/pdf',
+            'image/jpeg' and 'image/png'."
+            Other content is ignored when training a model.
+            </remarks>
+            <param name='trainRequest'>
+            Request object for training.
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.GetExtractedKeysWithHttpMessagesAsync(System.Guid,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get Keys
+            </summary>
+            <remarks>
+            Use the API to retrieve the keys that were
+            extracted by the specified model.
+            </remarks>
+            <param name='id'>
+            Model identifier.
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.GetCustomModelsWithHttpMessagesAsync(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get Models
+            </summary>
+            <remarks>
+            Get information about all trained models
+            </remarks>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.GetCustomModelWithHttpMessagesAsync(System.Guid,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get Model
+            </summary>
+            <remarks>
+            Get information about a model.
+            </remarks>
+            <param name='id'>
+            Model identifier.
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.DeleteCustomModelWithHttpMessagesAsync(System.Guid,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Delete Model
+            </summary>
+            <remarks>
+            Delete model artifacts.
+            </remarks>
+            <param name='id'>
+            The identifier of the model to delete.
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.FormRecognizerClient.AnalyzeWithCustomModelWithHttpMessagesAsync(System.Guid,System.IO.Stream,System.Collections.Generic.IList{System.String},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Analyze Form
+            </summary>
+            <remarks>
+            The document to analyze must be of a supported content type -
+            'application/pdf', 'image/jpeg' or 'image/png'. The response contains not
+            just the extracted information of the analyzed form but also information
+            about content that was not extracted along with a reason.
+            </remarks>
+            <param name='id'>
+            Model Identifier to analyze the document with.
+            </param>
+            <param name='formStream'>
+            A pdf document or image (jpg,png) file to analyze.
+            </param>
+            <param name='keys'>
+            An optional list of known keys to extract the values for.
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.AnalyzeResult">
+            <summary>
+            Analyze API call result.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.AnalyzeResult.#ctor">
+            <summary>
+            Initializes a new instance of the AnalyzeResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.AnalyzeResult.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedPage},System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormOperationError})">
+            <summary>
+            Initializes a new instance of the AnalyzeResult class.
+            </summary>
+            <param name="status">Status of the analyze operation. Possible
+            values include: 'success', 'partialSuccess', 'failure'</param>
+            <param name="pages">Page level information extracted in the
+            analyzed
+            document.</param>
+            <param name="errors">List of errors reported during the analyze
+            operation.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.AnalyzeResult.Status">
+            <summary>
+            Gets or sets status of the analyze operation. Possible values
+            include: 'success', 'partialSuccess', 'failure'
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.AnalyzeResult.Pages">
+            <summary>
+            Gets or sets page level information extracted in the analyzed
+            document.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.AnalyzeResult.Errors">
+            <summary>
+            Gets or sets list of errors reported during the analyze
+            operation.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorInformation.#ctor">
+            <summary>
+            Initializes a new instance of the ErrorInformation class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorInformation.#ctor(System.String,Microsoft.Azure.CognitiveServices.FormRecognizer.Models.InnerError,System.String)">
+            <summary>
+            Initializes a new instance of the ErrorInformation class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorInformation.Code">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorInformation.InnerError">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorInformation.Message">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponse.#ctor">
+            <summary>
+            Initializes a new instance of the ErrorResponse class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponse.#ctor(Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorInformation)">
+            <summary>
+            Initializes a new instance of the ErrorResponse class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponse.Error">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException">
+            <summary>
+            Exception thrown for an invalid response with ErrorResponse
+            information.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException.Request">
+            <summary>
+            Gets information about the associated HTTP request.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException.Response">
+            <summary>
+            Gets information about the associated HTTP response.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException.Body">
+            <summary>
+            Gets or sets the body object.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException.#ctor">
+            <summary>
+            Initializes a new instance of the ErrorResponseException class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the ErrorResponseException class.
+            </summary>
+            <param name="message">The exception message.</param>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ErrorResponseException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the ErrorResponseException class.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="innerException">Inner exception.</param>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedKeyValuePair">
+            <summary>
+            Representation of a key-value pair as a list
+            of key and value tokens.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedKeyValuePair.#ctor">
+            <summary>
+            Initializes a new instance of the ExtractedKeyValuePair class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedKeyValuePair.#ctor(System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedToken},System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedToken})">
+            <summary>
+            Initializes a new instance of the ExtractedKeyValuePair class.
+            </summary>
+            <param name="key">List of tokens for the extracted key in a
+            key-value pair.</param>
+            <param name="value">List of tokens for the extracted value in a
+            key-value pair.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedKeyValuePair.Key">
+            <summary>
+            Gets or sets list of tokens for the extracted key in a key-value
+            pair.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedKeyValuePair.Value">
+            <summary>
+            Gets or sets list of tokens for the extracted value in a key-value
+            pair.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedPage">
+            <summary>
+            Extraction information of a single page in a
+            with a document.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedPage.#ctor">
+            <summary>
+            Initializes a new instance of the ExtractedPage class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedPage.#ctor(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedKeyValuePair},System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTable})">
+            <summary>
+            Initializes a new instance of the ExtractedPage class.
+            </summary>
+            <param name="number">Page number.</param>
+            <param name="height">Height of the page (in pixels).</param>
+            <param name="width">Width of the page (in pixels).</param>
+            <param name="clusterId">Cluster identifier.</param>
+            <param name="keyValuePairs">List of Key-Value pairs extracted from
+            the page.</param>
+            <param name="tables">List of Tables and their information extracted
+            from the page.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedPage.Number">
+            <summary>
+            Gets or sets page number.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedPage.Height">
+            <summary>
+            Gets or sets height of the page (in pixels).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedPage.Width">
+            <summary>
+            Gets or sets width of the page (in pixels).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedPage.ClusterId">
+            <summary>
+            Gets or sets cluster identifier.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedPage.KeyValuePairs">
+            <summary>
+            Gets or sets list of Key-Value pairs extracted from the page.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedPage.Tables">
+            <summary>
+            Gets or sets list of Tables and their information extracted from
+            the page.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTable">
+            <summary>
+            Extraction information about a table
+            contained in a page.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTable.#ctor">
+            <summary>
+            Initializes a new instance of the ExtractedTable class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTable.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTableColumn})">
+            <summary>
+            Initializes a new instance of the ExtractedTable class.
+            </summary>
+            <param name="id">Table identifier.</param>
+            <param name="columns">List of columns contained in the
+            table.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTable.Id">
+            <summary>
+            Gets or sets table identifier.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTable.Columns">
+            <summary>
+            Gets or sets list of columns contained in the table.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTableColumn">
+            <summary>
+            Extraction information of a column in
+            a table.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTableColumn.#ctor">
+            <summary>
+            Initializes a new instance of the ExtractedTableColumn class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTableColumn.#ctor(System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedToken},System.Collections.Generic.IList{System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedToken}})">
+            <summary>
+            Initializes a new instance of the ExtractedTableColumn class.
+            </summary>
+            <param name="header">List of extracted tokens for the column
+            header.</param>
+            <param name="entries">Extracted text for each cell of a column.
+            Each cell
+            in the column can have a list of one or more tokens.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTableColumn.Header">
+            <summary>
+            Gets or sets list of extracted tokens for the column header.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedTableColumn.Entries">
+            <summary>
+            Gets or sets extracted text for each cell of a column. Each cell
+            in the column can have a list of one or more tokens.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedToken">
+            <summary>
+            Canonical representation of single extracted text.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedToken.#ctor">
+            <summary>
+            Initializes a new instance of the ExtractedToken class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedToken.#ctor(System.String,System.Collections.Generic.IList{System.Nullable{System.Double}},System.Nullable{System.Double})">
+            <summary>
+            Initializes a new instance of the ExtractedToken class.
+            </summary>
+            <param name="text">String value of the extracted text.</param>
+            <param name="boundingBox">Bounding box of the extracted text.
+            Represents the
+            location of the extracted text as a pair of
+            cartesian co-ordinates. The co-ordinate pairs are arranged by
+            top-left, top-right, bottom-right and bottom-left endpoints box
+            with origin reference from the bottom-left of the page.</param>
+            <param name="confidence">A measure of accuracy of the extracted
+            text.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedToken.Text">
+            <summary>
+            Gets or sets string value of the extracted text.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedToken.BoundingBox">
+            <summary>
+            Gets or sets bounding box of the extracted text. Represents the
+            location of the extracted text as a pair of
+            cartesian co-ordinates. The co-ordinate pairs are arranged by
+            top-left, top-right, bottom-right and bottom-left endpoints box
+            with origin reference from the bottom-left of the page.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ExtractedToken.Confidence">
+            <summary>
+            Gets or sets a measure of accuracy of the extracted text.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormDocumentReport.#ctor">
+            <summary>
+            Initializes a new instance of the FormDocumentReport class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormDocumentReport.#ctor(System.String,System.Nullable{System.Int32},System.Collections.Generic.IList{System.String},System.String)">
+            <summary>
+            Initializes a new instance of the FormDocumentReport class.
+            </summary>
+            <param name="documentName">Reference to the data that the report is
+            for.</param>
+            <param name="pages">Total number of pages trained on.</param>
+            <param name="errors">List of errors per page.</param>
+            <param name="status">Status of the training operation. Possible
+            values include: 'success', 'partialSuccess', 'failure'</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormDocumentReport.DocumentName">
+            <summary>
+            Gets or sets reference to the data that the report is for.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormDocumentReport.Pages">
+            <summary>
+            Gets or sets total number of pages trained on.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormDocumentReport.Errors">
+            <summary>
+            Gets or sets list of errors per page.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormDocumentReport.Status">
+            <summary>
+            Gets or sets status of the training operation. Possible values
+            include: 'success', 'partialSuccess', 'failure'
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormOperationError">
+            <summary>
+            Error reported during an operation.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormOperationError.#ctor">
+            <summary>
+            Initializes a new instance of the FormOperationError class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormOperationError.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the FormOperationError class.
+            </summary>
+            <param name="errorMessage">Message reported during the train
+            operation.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormOperationError.ErrorMessage">
+            <summary>
+            Gets or sets message reported during the train operation.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.InnerError.#ctor">
+            <summary>
+            Initializes a new instance of the InnerError class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.InnerError.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the InnerError class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.InnerError.RequestId">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.KeysResult">
+            <summary>
+            Result of an operation to get
+            the keys extracted by a model.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.KeysResult.#ctor">
+            <summary>
+            Initializes a new instance of the KeysResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.KeysResult.#ctor(System.Collections.Generic.IDictionary{System.String,System.Collections.Generic.IList{System.String}})">
+            <summary>
+            Initializes a new instance of the KeysResult class.
+            </summary>
+            <param name="clusters">Object mapping ClusterIds to Key
+            lists.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.KeysResult.Clusters">
+            <summary>
+            Gets or sets object mapping ClusterIds to Key lists.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelResult">
+            <summary>
+            Result of a model status query operation.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelResult.#ctor">
+            <summary>
+            Initializes a new instance of the ModelResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelResult.#ctor(System.Guid,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Initializes a new instance of the ModelResult class.
+            </summary>
+            <param name="modelId">Get or set model identifier.</param>
+            <param name="status">Get or set the status of model. Possible
+            values include: 'created', 'ready', 'invalid'</param>
+            <param name="createdDateTime">Get or set the created date time of
+            the model.</param>
+            <param name="lastUpdatedDateTime">Get or set the model last updated
+            datetime.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelResult.ModelId">
+            <summary>
+            Gets or sets get or set model identifier.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelResult.Status">
+            <summary>
+            Gets or sets get or set the status of model. Possible values
+            include: 'created', 'ready', 'invalid'
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelResult.CreatedDateTime">
+            <summary>
+            Gets or sets get or set the created date time of the model.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelResult.LastUpdatedDateTime">
+            <summary>
+            Gets or sets get or set the model last updated datetime.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelsResult">
+            <summary>
+            Result of query operation to fetch multiple models.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelsResult.#ctor">
+            <summary>
+            Initializes a new instance of the ModelsResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelsResult.#ctor(System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelResult})">
+            <summary>
+            Initializes a new instance of the ModelsResult class.
+            </summary>
+            <param name="modelsProperty">Collection of models.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.ModelsResult.ModelsProperty">
+            <summary>
+            Gets or sets collection of models.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainRequest">
+            <summary>
+            Contract to initiate a train request.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainRequest.#ctor">
+            <summary>
+            Initializes a new instance of the TrainRequest class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainRequest.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the TrainRequest class.
+            </summary>
+            <param name="source">Get or set source path.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainRequest.Source">
+            <summary>
+            Gets or sets get or set source path.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainRequest.Validate">
+            <summary>
+            Validate the object.
+            </summary>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown if validation fails
+            </exception>
+        </member>
+        <member name="T:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainResult">
+            <summary>
+            Response of the Train API call.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainResult.#ctor">
+            <summary>
+            Initializes a new instance of the TrainResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainResult.#ctor(System.Guid,System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormDocumentReport},System.Collections.Generic.IList{Microsoft.Azure.CognitiveServices.FormRecognizer.Models.FormOperationError})">
+            <summary>
+            Initializes a new instance of the TrainResult class.
+            </summary>
+            <param name="modelId">Identifier of the model.</param>
+            <param name="trainingDocuments">List of documents used to train the
+            model and the
+            train operation error reported by each.</param>
+            <param name="errors">Errors returned during the training
+            operation.</param>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainResult.ModelId">
+            <summary>
+            Gets or sets identifier of the model.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainResult.TrainingDocuments">
+            <summary>
+            Gets or sets list of documents used to train the model and the
+            train operation error reported by each.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.CognitiveServices.FormRecognizer.Models.TrainResult.Errors">
+            <summary>
+            Gets or sets errors returned during the training operation.
+            </summary>
+        </member>
+    </members>
+</doc>

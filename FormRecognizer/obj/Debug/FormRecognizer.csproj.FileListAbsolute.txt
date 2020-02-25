@@ -1,0 +1,15 @@
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\bin\Debug\FormRecognizer.exe.config
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\bin\Debug\FormRecognizer.exe
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\bin\Debug\FormRecognizer.pdb
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\bin\Debug\Microsoft.Azure.CognitiveServices.FormRecognizer.dll
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\bin\Debug\Microsoft.Rest.ClientRuntime.Azure.dll
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\bin\Debug\Microsoft.Rest.ClientRuntime.dll
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\bin\Debug\Microsoft.Azure.CognitiveServices.FormRecognizer.xml
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\bin\Debug\Microsoft.Rest.ClientRuntime.xml
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\bin\Debug\Microsoft.Rest.ClientRuntime.Azure.xml
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\obj\Debug\FormRecognizer.csproj.CopyComplete
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\obj\Debug\FormRecognizer.exe
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\obj\Debug\FormRecognizer.pdb
+C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\obj\Debug\FormRecognizer.csprojAssemblyReference.cache
