@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Image_Concatenator
 {
@@ -21,13 +22,13 @@ namespace Image_Concatenator
 
             var batchSize = VERTICAL_SECTIONS_COUNT * HORIZONTAL_SECTIONS_COUNT;
 
-            for (int i = 0; i < images.Count / batchSize; i++)
-            {
-                var imagesInBatch = images.GetRange(i * batchSize, batchSize);
+            Parallel.For(0, images.Count / batchSize,
+                   i => {
+                       var imagesInBatch = images.GetRange(i * batchSize, batchSize);
 
-                var image = ConcatImagesImages(imagesInBatch, VERTICAL_SECTIONS_COUNT, HORIZONTAL_SECTIONS_COUNT);
-                image.Save(@$"../../../ConcatImages/image_0{i}.jpg", ImageFormat.Jpeg);
-            }
+                       var image = ConcatImagesImages(imagesInBatch, VERTICAL_SECTIONS_COUNT, HORIZONTAL_SECTIONS_COUNT);
+                       image.Save(@$"../../../ConcatImages/image_{i}.jpg", ImageFormat.Jpeg);
+                   });
         }
 
         public static Image ConcatImagesImages(List<Image> images, int matrixWidth, int matrixHeight)
