@@ -5261,19 +5261,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\iliya.bakyrdjiev\\.nuget\\packages\\": {}
+    "C:\\Users\\nadya.hristova\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\iliya.bakyrdjiev\\Documents\\MSFormRecognition\\ComputerVision\\ComputerVision\\ComputerVision.csproj",
+      "projectUniqueName": "C:\\Users\\nadya.hristova\\Documents\\MSFormRecognition\\ComputerVision\\ComputerVision\\ComputerVision.csproj",
       "projectName": "ComputerVision",
-      "projectPath": "C:\\Users\\iliya.bakyrdjiev\\Documents\\MSFormRecognition\\ComputerVision\\ComputerVision\\ComputerVision.csproj",
-      "packagesPath": "C:\\Users\\iliya.bakyrdjiev\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\iliya.bakyrdjiev\\Documents\\MSFormRecognition\\ComputerVision\\ComputerVision\\obj\\",
+      "projectPath": "C:\\Users\\nadya.hristova\\Documents\\MSFormRecognition\\ComputerVision\\ComputerVision\\ComputerVision.csproj",
+      "packagesPath": "C:\\Users\\nadya.hristova\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\nadya.hristova\\Documents\\MSFormRecognition\\ComputerVision\\ComputerVision\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\iliya.bakyrdjiev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\nadya.hristova\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

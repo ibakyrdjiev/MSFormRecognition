@@ -1,0 +1,9 @@
+CustomVision/bin
+CustomVision/obj
+CustomVision/.vs
+Image_Concatenator/bin
+Image_Concatenator/obj
+Image_Concatenator/.vs
+.vs
+Image_Concatenator/ConcatImages/*
+Image_Concatenator/Resources/*
