@@ -20,7 +20,7 @@ namespace FormRecognizerQuickStart
         // SAS Url to Azure Blob Storage container; this used for training the custom model
         // For help using SAS see: 
         // https://docs.microsoft.com/en-us/azure/storage/common/storage-dotnet-shared-access-signature-part-1
-        private const string trainingDataUrl = "https://demostorageiliya.blob.core.windows.net/inputblob/survey34.pdf";
+        private const string trainingDataUrl = "https://demostorageiliya.blob.core.windows.net/inputblob/survey34Clean.pdf";
 
         // Local path to a form to be analyzed
         // Any one or all of file formats (pdf,jpg or png)can be used with a trained model. 
@@ -28,7 +28,7 @@ namespace FormRecognizerQuickStart
         //  pdf file  : "c:\documents\invoice.pdf" 
         //  jpeg file : "c:\documents\invoice.jpg"
         //  png file  : "c:\documents\invoice.png"
-        private const string pdfFormFile = @"C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\data\survey34.pdf";
+        private const string pdfFormFile = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\FormRecognizer\data\survey34Clean.pdf";
         //private const string pdfFormFile = @"C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\data\sample1.pdf";
         private const string jpgFormFile = @"C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\data\G6AwO.jpg";
         private const string pngFormFile = @"C:\Users\iliya.bakyrdjiev\Desktop\cognitive-services-quickstart-code-master\dotnet\FormRecognizer\data\20180729_153222.png";

@@ -5266,11 +5266,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\iliya.bakyrdjiev\\source\\repos\\ComputerVision\\ComputerVision\\ComputerVision.csproj",
+      "projectUniqueName": "C:\\Users\\iliya.bakyrdjiev\\Documents\\MSFormRecognition\\ComputerVision\\ComputerVision\\ComputerVision.csproj",
       "projectName": "ComputerVision",
-      "projectPath": "C:\\Users\\iliya.bakyrdjiev\\source\\repos\\ComputerVision\\ComputerVision\\ComputerVision.csproj",
+      "projectPath": "C:\\Users\\iliya.bakyrdjiev\\Documents\\MSFormRecognition\\ComputerVision\\ComputerVision\\ComputerVision.csproj",
       "packagesPath": "C:\\Users\\iliya.bakyrdjiev\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\iliya.bakyrdjiev\\source\\repos\\ComputerVision\\ComputerVision\\obj\\",
+      "outputPath": "C:\\Users\\iliya.bakyrdjiev\\Documents\\MSFormRecognition\\ComputerVision\\ComputerVision\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\iliya.bakyrdjiev\\AppData\\Roaming\\NuGet\\NuGet.Config",

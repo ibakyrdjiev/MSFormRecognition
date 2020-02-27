@@ -9,8 +9,4 @@
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="6.0.0-dev.20190919.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="surveys\" />
-  </ItemGroup>
-
 </Project>

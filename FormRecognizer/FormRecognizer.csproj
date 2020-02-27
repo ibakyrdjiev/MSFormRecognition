@@ -60,12 +60,14 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SnapShot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="data\sample1.pdf" />
     <None Include="data\survey.pdf" />
     <None Include="data\survey33.pdf" />
+    <None Include="data\survey34Clean.pdf" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
