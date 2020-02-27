@@ -30,3 +30,13 @@ C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVis
 C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\obj\Debug\netcoreapp3.1\ComputerVision.csproj.CopyComplete
 C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\obj\Debug\netcoreapp3.1\ComputerVision.dll
 C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\obj\Debug\netcoreapp3.1\ComputerVision.pdb
+C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\bin\Debug\netcoreapp3.1\Raven.Abstractions.dll
+C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\bin\Debug\netcoreapp3.1\Raven.Client.Lightweight.dll
+C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\bin\Debug\netcoreapp3.1\Sparrow.dll
+C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\bin\Debug\netcoreapp3.1\Raven.Database.dll
+C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\bin\Debug\netcoreapp3.1\System.ServiceModel.Primitives.dll
+C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netstandard1.3\System.Private.ServiceModel.dll
+C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\bin\Debug\netcoreapp3.1\runtimes\win7\lib\netstandard1.3\System.Private.ServiceModel.dll

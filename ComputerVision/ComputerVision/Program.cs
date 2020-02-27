@@ -8,6 +8,7 @@ using ComputerVision;
 using System.Linq;
 using ComputerVision.Models;
 using System.Text.RegularExpressions;
+using DuoVia.FuzzyStrings;
 
 namespace ComputerVisionQuickstart
 {
@@ -15,10 +16,13 @@ namespace ComputerVisionQuickstart
     {
         static string subscriptionKey = "66df573a2f964d3a90f32e038bb0f6de";
         static string endpoint = "https://computervisiontestmm.cognitiveservices.azure.com/";
-        private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34Clean.pdf";
+       // private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34-1.jpg";
+        private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey3full.pdf";
         private static List<Question> questions = new List<Question>();
         private static List<ExtractedQuestion> extractedQuestions = new List<ExtractedQuestion>();
         public static Queue<ResultLine> resultLinesQueue = new Queue<ResultLine>();
+        public static List<string> textLines = new List<string>();
+
 
         static void Main(string[] args)
         {
@@ -37,15 +41,8 @@ namespace ComputerVisionQuickstart
 
         private static async Task BatchReadFileLocal(ComputerVisionClient client, string localImage)
         {
-            Console.WriteLine("----------------------------------------------------------");
-            Console.WriteLine("BATCH READ FILE - LOCAL IMAGE");
-            Console.WriteLine();
-
             // Helps calucalte starting index to retrieve operation ID
             const int numberOfCharsInOperationId = 36;
-
-            Console.WriteLine($"Extracting text from local image {Path.GetFileName(localImage)}...");
-            Console.WriteLine();
             using (Stream imageStream = File.OpenRead(localImage))
             {
                 BatchReadFileInStreamHeaders localFileTextHeaders = await client.BatchReadFileInStreamAsync(imageStream);
@@ -86,6 +83,8 @@ namespace ComputerVisionQuickstart
                             }).ToList()
                         };
 
+                        Console.WriteLine(line.Text);
+                        textLines.Add(line.Text);
                         resultLinesQueue.Enqueue(current);
                     }
                 }
@@ -95,6 +94,7 @@ namespace ComputerVisionQuickstart
                     ProccessQueue();
                 }
 
+                System.IO.File.WriteAllLines(@"C:\Users\iliya.bakyrdjiev\Desktop\trash\test1.txt", textLines);
                 Console.WriteLine();
             }
         }
@@ -133,6 +133,7 @@ namespace ComputerVisionQuickstart
             else
             {
                 currentItem = resultLinesQueue.Dequeue();
+
                 var match = Regex.Match(currentItem.Text, @"[1-9]+\.\s+.*");
                 if (match.Success)
                 {
@@ -145,32 +146,57 @@ namespace ComputerVisionQuickstart
 
         private static void HandleMatch(ResultLine resultLine)
         {
-            if (questions.Any(q => q.Text == resultLine.Text)) // exact match
+            if (questions.Any(q => q.Text.FuzzyEquals(resultLine.Text))) // "exact" fuzzy match
             {
-                var q = new ExtractedQuestion()
+                var question = questions.Where(q => q.Text.FuzzyEquals(resultLine.Text)).FirstOrDefault();
+                var relatedAnswers = question.Answers;
+
+                var extractedQuestion = new ExtractedQuestion()
                 {
                     ResultLine = resultLine
                 };
 
-                extractedQuestions.Add(q);
-                var ans = questions.Where(q => q.Text == resultLine.Text).FirstOrDefault().Answers;
-                HandleAnswers(q, ans);
-            }
-            else if (questions.Any(q => q.Text.Contains(resultLine.Text)))
-            {
-                var nextItem = resultLinesQueue.Dequeue();
-                var concat = resultLine.Text + " " + nextItem.Text;
+                extractedQuestions.Add(extractedQuestion);
 
-                resultLine.Words.AddRange(nextItem.Words);
-                var item4Send = new ResultLine()
+                switch (question.QuestionAnswerType)
                 {
-                    Text = concat,
-                    Position = resultLine.Position,
-                    Words = resultLine.Words
-                };
+                    case QuestionAnswerType.FreeText:
+                        HandleFreeTextQuestion(extractedQuestion);
+                        break;
 
-                ProccessQueue(item4Send);
+                    case QuestionAnswerType.UnderCheckBox:
+                        HandleAnswers(extractedQuestion, relatedAnswers);
+                        break;
+
+                    default:
+                        break;
+                }
             }
+            //not needed maybe anymore 
+            //else if (questions.Any(q => q.Text.FuzzyEquals(resultLine.Text)))
+            //{
+            //    var nextItem = resultLinesQueue.Dequeue();
+            //    var concat = resultLine.Text + " " + nextItem.Text;
+
+            //    resultLine.Words.AddRange(nextItem.Words);
+            //    var item4Send = new ResultLine()
+            //    {
+            //        Text = concat,
+            //        Position = resultLine.Position,
+            //        Words = resultLine.Words
+            //    };
+
+            //    ProccessQueue(item4Send);
+            //}
+        }
+
+        private static void HandleFreeTextQuestion(ExtractedQuestion extractedQuestion)
+        {
+            var answer = resultLinesQueue.Peek();
+            extractedQuestion.ExtractedAnswers.Add(new ExtractedAnswer()
+            {
+                ResultLine = answer
+            });
         }
 
         private static void HandleAnswers(ExtractedQuestion question, List<Answer> predefAnswers)
@@ -180,7 +206,17 @@ namespace ComputerVisionQuickstart
             {
                 var current = resultLinesQueue.Peek();
 
-                if (predefAnswers.Any(x => current.Text.Contains(x.Text)))
+                var match = Regex.Match(current.Text, @"^[a-z]s?\. ?s?\)?$"); //th ere is a problem only the a) is captured
+
+                if (match.Success)
+                {
+                    resultLinesQueue.Dequeue();
+                    HandleAnswers(question, predefAnswers);
+                }
+                var userInput = current.Text.ToLower();
+
+                //it will be good to strip this a.) / a. 
+                if (predefAnswers.Any(x => userInput.FuzzyEquals(x.Text.ToLower(), 0.60)))
                 {
                     var a = new ExtractedAnswer()
                     {
@@ -190,6 +226,7 @@ namespace ComputerVisionQuickstart
                     question.ExtractedAnswers.Add(a);
                     resultLinesQueue.Dequeue();
                 }
+
                 else
                 {
                     haveToSearch = false;

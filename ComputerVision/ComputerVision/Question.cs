@@ -9,12 +9,14 @@ namespace ComputerVision
         public List<Answer> Answers { get; set; }
 
         public QuestionAnswerType QuestionAnswerType { get; set; }
+
+        public List<string> MetaData { get; set; }
     }
 
     public enum QuestionAnswerType
     {
         UnderCheckBox,
         Table,
-        FreeTextLeftSide
+        FreeText
     }
 }

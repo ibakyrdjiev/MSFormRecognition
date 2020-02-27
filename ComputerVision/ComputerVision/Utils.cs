@@ -106,6 +106,23 @@ namespace ComputerVision
             };
             questions.Add(fith);
 
+            var sixth = new Question()
+            {
+                Text = "What are the first three letters of your last name?",
+                QuestionAnswerType = QuestionAnswerType.FreeText,
+                Answers = null
+            };
+
+            questions.Add(sixth);
+
+            var seventh = new Question()
+            {
+                Text = "When were you born?",
+                QuestionAnswerType = QuestionAnswerType.FreeText,
+                Answers = null,
+                MetaData = new List<string>() { "Month", "Day" }
+            };
+
             return questions;
         }
     }
