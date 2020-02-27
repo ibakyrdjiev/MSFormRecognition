@@ -1,6 +1,8 @@
 CustomVision/bin
 CustomVision/obj
 CustomVision/.vs
+CustomVision/Resources/Training_Labels/*
+CustomVision/Resources/Training_Pictures/*
 Image_Concatenator/bin
 Image_Concatenator/obj
 Image_Concatenator/.vs
