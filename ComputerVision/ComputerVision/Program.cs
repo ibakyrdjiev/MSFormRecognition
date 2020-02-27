@@ -18,120 +18,13 @@ namespace ComputerVisionQuickstart
         private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34Clean.pdf";
         private static List<Question> questions = new List<Question>();
         private static List<ExtractedQuestion> extractedQuestions = new List<ExtractedQuestion>();
-        public static Queue<string> textQueue = new Queue<string>();
-        public static List<string> questionsTest = new List<string>();
         public static Queue<ResultLine> resultLinesQueue = new Queue<ResultLine>();
 
         static void Main(string[] args)
         {
-            PopulateFakeData();
-            Console.WriteLine("Azure Cognitive Services Computer Vision - .NET quickstart example");
-            Console.WriteLine();
+            questions = Utils.GetFakeQuestions();
             ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
-
             BatchReadFileLocal(client, EXTRACT_TEXT_LOCAL_IMAGE).Wait();
-            Console.WriteLine("----------------------------------------------------------");
-            Console.WriteLine();
-            Console.WriteLine("Computer Vision quickstart is complete.");
-            Console.WriteLine();
-            Console.WriteLine("Press enter to exit...");
-            Console.WriteLine();
-        }
-
-        private static void PopulateFakeData()
-        {
-            var first = new Question();
-            first.Answers = new List<Answer>();
-            first.Text = "Of the following steps, which would be the first step in financial planning?";
-            first.Answers.Add(new Answer() { Text = "Get a job so you can start earning money." });
-            first.Answers.Add(new Answer() { Text = "Determine your needs and goals for the future." });
-            first.Answers.Add(new Answer() { Text = "Starting looking for a home to buy." });
-            first.Answers.Add(new Answer() { Text = " Save a portion of your money for the future." });
-            questions.Add(first);
-
-            var second = new Question();
-            second.Answers = new List<Answer>();
-            second.Text = "The best predictor of how much money you will make in the future is the you choose.";
-            second.Answers.Add(new Answer() { Text = "skills" });
-            second.Answers.Add(new Answer() { Text = "connections" });
-            second.Answers.Add(new Answer() { Text = "education" });
-            second.Answers.Add(new Answer() { Text = "all of the above" });
-            questions.Add(second);
-
-            var third = new Question()
-            {
-                Text = "Which of the following should you remember when developing a savings plan?",
-                Answers = new List<Answer>()
-                {
-                    new Answer()
-                    {
-                        Text = "Wait until you are 40 years old before saving."
-                    },
-                    new Answer()
-                    {
-                        Text = "Pay yourself first."
-                    },
-                    new Answer()
-                    {
-                        Text = "Pay off your low-interest debt first."
-                    },
-                    new Answer()
-                    {
-                        Text = "Have only high-risk investments."
-                    }
-                }
-            };
-            questions.Add(third);
-
-            var fourth = new Question()
-            {
-                Text = "All of the following are elements of financial planning except one. Which one is NOT?",
-                Answers = new List<Answer>()
-                {
-                    new Answer()
-                    {
-                        Text = "Earn money"
-                    },
-                    new Answer()
-                    {
-                        Text = "Save money"
-                    },
-                    new Answer()
-                    {
-                        Text = "Never use credit"
-                    },
-                    new Answer()
-                    {
-                        Text = "Spend money wisely"
-                    }
-                }
-            };
-            questions.Add(fourth);
-
-            var fith = new Question()
-            {
-                Text = "Alan has created a new budget. Which of the following should he NOT do?",
-                Answers = new List<Answer>()
-                {
-                    new Answer()
-                    {
-                        Text = "Have a spending plan."
-                    },
-                    new Answer()
-                    {
-                        Text = "Spend less than he earns."
-                    },
-                    new Answer()
-                    {
-                        Text = "Use credit for all items not in his budget."
-                    },
-                    new Answer()
-                    {
-                        Text = "Stick to his budget"
-                    }
-                }
-            };
-            questions.Add(fith);
         }
 
         public static ComputerVisionClient Authenticate(string endpoint, string key)
@@ -142,7 +35,7 @@ namespace ComputerVisionQuickstart
             return client;
         }
 
-        public static async Task BatchReadFileLocal(ComputerVisionClient client, string localImage)
+        private static async Task BatchReadFileLocal(ComputerVisionClient client, string localImage)
         {
             Console.WriteLine("----------------------------------------------------------");
             Console.WriteLine("BATCH READ FILE - LOCAL IMAGE");
@@ -155,15 +48,9 @@ namespace ComputerVisionQuickstart
             Console.WriteLine();
             using (Stream imageStream = File.OpenRead(localImage))
             {
-                // Read the text from the local image
                 BatchReadFileInStreamHeaders localFileTextHeaders = await client.BatchReadFileInStreamAsync(imageStream);
-                // Get the operation location (operation ID)
                 string operationLocation = localFileTextHeaders.OperationLocation;
-
-                // Retrieve the URI where the recognized text will be stored from the Operation-Location header.
                 string operationId = operationLocation.Substring(operationLocation.Length - numberOfCharsInOperationId);
-
-                // Extract text, wait for it to complete.
                 int i = 0;
                 int maxRetries = 10;
                 ReadOperationResult results;
@@ -180,7 +67,6 @@ namespace ComputerVisionQuickstart
                 while ((results.Status == TextOperationStatusCodes.Running ||
                     results.Status == TextOperationStatusCodes.NotStarted) && i++ < maxRetries);
 
-                // Display the found text.
                 Console.WriteLine();
                 List<string> lines = new List<string>();
                 var textRecognitionLocalFileResults = results.RecognitionResults;
@@ -201,7 +87,6 @@ namespace ComputerVisionQuickstart
                         };
 
                         resultLinesQueue.Enqueue(current);
-                        textQueue.Enqueue(line.Text);
                     }
                 }
 
@@ -226,7 +111,6 @@ namespace ComputerVisionQuickstart
 
             return result;
         }
-
 
         private static Point CreatePoint(double x, double y, bool isPDF = false)
         {
@@ -263,7 +147,6 @@ namespace ComputerVisionQuickstart
         {
             if (questions.Any(q => q.Text == resultLine.Text)) // exact match
             {
-                questionsTest.Add(resultLine.Text);
                 var q = new ExtractedQuestion()
                 {
                     ResultLine = resultLine

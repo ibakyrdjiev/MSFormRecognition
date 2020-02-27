@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ComputerVision
 {
@@ -9,5 +7,14 @@ namespace ComputerVision
         public string Text { get; set; }
 
         public List<Answer> Answers { get; set; }
+
+        public QuestionAnswerType QuestionAnswerType { get; set; }
+    }
+
+    public enum QuestionAnswerType
+    {
+        UnderCheckBox,
+        Table,
+        FreeTextLeftSide
     }
 }
