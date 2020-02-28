@@ -133,7 +133,6 @@ namespace ComputerVisionQuickstart
             else
             {
                 currentItem = resultLinesQueue.Dequeue();
-
                 var match = Regex.Match(currentItem.Text, @"[1-9]+\.\s+.*");
                 if (match.Success)
                 {
@@ -220,14 +219,22 @@ namespace ComputerVisionQuickstart
                 {
                     resultLinesQueue.Dequeue();
                     current = resultLinesQueue.Peek();
+                    HandleAnswers(question, predefAnswers, extractedQuestion);
                 }
 
-                var match = Regex.Match(current.Text, @"^[a-z] ??\. ?s?\)?$"); //th ere is a problem only the a) is captured
+                var match = Regex.Match(current.Text, @"^[a-z] ?\.? ?\)?$"); //there is a problem only the a) is captured
 
                 if (match.Success)
                 {
                     resultLinesQueue.Dequeue();
                     HandleAnswers(question, predefAnswers, extractedQuestion);
+                }
+
+                bool haveToStripAnswer = Regex.Match(userInput, @"^[a-z] ??\. ?s?\)?.*").Success;
+                if (haveToStripAnswer)
+                {
+                    var test = Regex.Replace(current.Text, @"^[a-z] ?\.? ?\)?", string.Empty);
+                    userInput = test;
                 }
 
                 //todo strip 
