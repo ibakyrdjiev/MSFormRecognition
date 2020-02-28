@@ -134,11 +134,6 @@ namespace ComputerVisionQuickstart
             {
                 currentItem = resultLinesQueue.Dequeue();
 
-                if (currentItem.Text.Contains("he best predictor of how much money yo"))
-                {
-
-                }
-
                 var match = Regex.Match(currentItem.Text, @"[1-9]+\.\s+.*");
                 if (match.Success)
                 {
