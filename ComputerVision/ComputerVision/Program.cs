@@ -16,13 +16,12 @@ namespace ComputerVisionQuickstart
     {
         static string subscriptionKey = "66df573a2f964d3a90f32e038bb0f6de";
         static string endpoint = "https://computervisiontestmm.cognitiveservices.azure.com/";
-        private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34.pdf";
-        //private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey3full.pdf";
+        //private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34.pdf";
+        private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34-1.jpg";
         private static List<Question> questions = new List<Question>();
         private static List<ExtractedQuestion> extractedQuestions = new List<ExtractedQuestion>();
         public static Queue<ResultLine> resultLinesQueue = new Queue<ResultLine>();
         public static List<string> textLines = new List<string>();
-
 
         static void Main(string[] args)
         {
@@ -75,10 +74,10 @@ namespace ComputerVisionQuickstart
                         var current = new ResultLine()
                         {
                             Text = line.Text,
-                            Position = MapPosition(line.BoundingBox, true),
+                            Position = MapPosition(line.BoundingBox, false),
                             Words = line.Words.Select(w => new ComputerVision.Models.Word()
                             {
-                                Position = MapPosition(w.BoundingBox, true),
+                                Position = MapPosition(w.BoundingBox, false),
                                 Value = w.Text
                             }).ToList()
                         };
@@ -161,7 +160,8 @@ namespace ComputerVisionQuickstart
 
                 var extractedQuestion = new ExtractedQuestion()
                 {
-                    ResultLine = resultLine
+                    ResultLine = resultLine,
+                    QuestionAnswerType = question.QuestionAnswerType
                 };
 
                 extractedQuestions.Add(extractedQuestion);
