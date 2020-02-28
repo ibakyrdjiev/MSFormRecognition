@@ -16,8 +16,8 @@ namespace ComputerVisionQuickstart
     {
         static string subscriptionKey = "66df573a2f964d3a90f32e038bb0f6de";
         static string endpoint = "https://computervisiontestmm.cognitiveservices.azure.com/";
-       // private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34-1.jpg";
-        private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey3full.pdf";
+        private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34.pdf";
+        //private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey3full.pdf";
         private static List<Question> questions = new List<Question>();
         private static List<ExtractedQuestion> extractedQuestions = new List<ExtractedQuestion>();
         public static Queue<ResultLine> resultLinesQueue = new Queue<ResultLine>();
@@ -134,6 +134,11 @@ namespace ComputerVisionQuickstart
             {
                 currentItem = resultLinesQueue.Dequeue();
 
+                if (currentItem.Text.Contains("he best predictor of how much money yo"))
+                {
+
+                }
+
                 var match = Regex.Match(currentItem.Text, @"[1-9]+\.\s+.*");
                 if (match.Success)
                 {
@@ -148,7 +153,16 @@ namespace ComputerVisionQuickstart
         {
             if (questions.Any(q => q.Text.FuzzyEquals(resultLine.Text))) // "exact" fuzzy match
             {
-                var question = questions.Where(q => q.Text.FuzzyEquals(resultLine.Text)).FirstOrDefault();
+                var relatedQuestionMatch = questions.Where(q => q.Text.FuzzyEquals(resultLine.Text))
+                    .Select(q => new QuestionMatch
+                    {
+                        Question = q,
+                        Match = q.Text.FuzzyMatch(resultLine.Text)
+                    }).OrderByDescending(x => x.Match);
+
+
+                var question = relatedQuestionMatch.First().Question;
+
                 var relatedAnswers = question.Answers;
 
                 var extractedQuestion = new ExtractedQuestion()
@@ -165,7 +179,7 @@ namespace ComputerVisionQuickstart
                         break;
 
                     case QuestionAnswerType.UnderCheckBox:
-                        HandleAnswers(extractedQuestion, relatedAnswers);
+                        HandleAnswers(question, relatedAnswers, extractedQuestion);
                         break;
 
                     default:
@@ -199,21 +213,29 @@ namespace ComputerVisionQuickstart
             });
         }
 
-        private static void HandleAnswers(ExtractedQuestion question, List<Answer> predefAnswers)
+        private static void HandleAnswers(Question question, List<Answer> predefAnswers, ExtractedQuestion extractedQuestion)
         {
             bool haveToSearch = true;
             while (haveToSearch)
             {
                 var current = resultLinesQueue.Peek();
+                var userInput = current.Text.ToLower();
 
-                var match = Regex.Match(current.Text, @"^[a-z]s?\. ?s?\)?$"); //th ere is a problem only the a) is captured
+                if (question.Text.EndsWith(current.Text)) //Todo make this with fuzzy mathc
+                {
+                    resultLinesQueue.Dequeue();
+                    current = resultLinesQueue.Peek();
+                }
+
+                var match = Regex.Match(current.Text, @"^[a-z] ??\. ?s?\)?$"); //th ere is a problem only the a) is captured
 
                 if (match.Success)
                 {
                     resultLinesQueue.Dequeue();
-                    HandleAnswers(question, predefAnswers);
+                    HandleAnswers(question, predefAnswers, extractedQuestion);
                 }
-                var userInput = current.Text.ToLower();
+
+                //todo strip 
 
                 //it will be good to strip this a.) / a. 
                 if (predefAnswers.Any(x => userInput.FuzzyEquals(x.Text.ToLower(), 0.60)))
@@ -223,7 +245,7 @@ namespace ComputerVisionQuickstart
                         ResultLine = current
                     };
 
-                    question.ExtractedAnswers.Add(a);
+                    extractedQuestion.ExtractedAnswers.Add(a);
                     resultLinesQueue.Dequeue();
                 }
 
@@ -233,5 +255,11 @@ namespace ComputerVisionQuickstart
                 }
             }
         }
+    }
+    public class QuestionMatch
+    {
+        public Question Question { get; set; }
+
+        public double Match { get; set; }
     }
 }
