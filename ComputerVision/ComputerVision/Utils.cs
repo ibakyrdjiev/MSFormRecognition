@@ -125,5 +125,19 @@ namespace ComputerVision
 
             return questions;
         }
+
+        public static List<SkipData> GetSkippedData()
+        {
+            var result = new List<SkipData>();
+            result.Add(new SkipData("Pre-Program Survey"));
+            result.Add(new SkipData("(Kit)"));
+            result.Add(new SkipData("Tell Us about You"));
+           
+            result.Add(new SkipData("JA Personal Finance"));
+            result.Add(new SkipData("Questions about the Program Content"));
+            result.Add(new SkipData("Before participating in this program, please try to answer these questions."));
+            result.Add(new SkipData("Circle the letter of the response that you think best answers the question."));
+            return result;
+        }
     }
 }

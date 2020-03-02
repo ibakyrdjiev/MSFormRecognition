@@ -17,17 +17,37 @@ namespace ComputerVisionQuickstart
         static string subscriptionKey = "66df573a2f964d3a90f32e038bb0f6de";
         static string endpoint = "https://computervisiontestmm.cognitiveservices.azure.com/";
         //private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34.pdf";
-        private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34-1.jpg";
+        //private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34-1.jpg";
+        private const string EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34.pdf";
         private static List<Question> questions = new List<Question>();
         private static List<ExtractedQuestion> extractedQuestions = new List<ExtractedQuestion>();
         public static Queue<ResultLine> resultLinesQueue = new Queue<ResultLine>();
         public static List<string> textLines = new List<string>();
+        public static List<SkipData> skipData = new List<SkipData>();
+        public static List<ComputerVision.Answer> answers = new List<ComputerVision.Answer>();
 
         static void Main(string[] args)
         {
             questions = Utils.GetFakeQuestions();
+            skipData = Utils.GetSkippedData();
+            answers = GetAnswers(questions);
             ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
             BatchReadFileLocal(client, EXTRACT_TEXT_LOCAL_IMAGE).Wait();
+        }
+
+        private static List<Answer> GetAnswers(List<Question> questions)
+        {
+            List<Answer> result = new List<Answer>();
+
+            foreach (var q in questions)
+            {
+                if (q.Answers != null)
+                {
+                    result.AddRange(q.Answers);
+                }
+            }
+
+            return result;
         }
 
         public static ComputerVisionClient Authenticate(string endpoint, string key)
@@ -83,15 +103,15 @@ namespace ComputerVisionQuickstart
                         };
 
                         Console.WriteLine(line.Text);
-                        textLines.Add(line.Text);
-                        resultLinesQueue.Enqueue(current);
+
+                        if (!skipData.Any(s => s.Data.ToLower().FuzzyEquals(line.Text.ToLower())))
+                        {
+                            resultLinesQueue.Enqueue(current);
+                        }
                     }
                 }
 
-                while (resultLinesQueue.Count != 0)
-                {
-                    ProccessQueue();
-                }
+                ProccessQueue();
 
                 System.IO.File.WriteAllLines(@"C:\Users\iliya.bakyrdjiev\Desktop\trash\test1.txt", textLines);
                 Console.WriteLine();
@@ -122,80 +142,81 @@ namespace ComputerVisionQuickstart
             return new Point(x, y);
         }
 
-        private static void ProccessQueue(ResultLine prev = null)
+        private static void ProccessQueue(ExtractedQuestion prev = null)
         {
-            ResultLine currentItem = null;
-            if (prev != null)
+            var currentItem = resultLinesQueue.Dequeue();
+            var question = HandleMatch(currentItem, prev);
+            if (resultLinesQueue.Any())
             {
-                HandleMatch(prev);
-            }
-            else
-            {
-                currentItem = resultLinesQueue.Dequeue();
-                var match = Regex.Match(currentItem.Text, @"[1-9]+\.\s+.*");
-                if (match.Success)
-                {
-                    string strippedLine = Regex.Replace(currentItem.Text, @"^[0-9]+\. ", string.Empty);
-                    currentItem.Text = strippedLine;
-                    HandleMatch(currentItem);
-                }
+                ProccessQueue(question);
             }
         }
 
-        private static void HandleMatch(ResultLine resultLine)
+        private static ExtractedQuestion HandleMatch(ResultLine resultLine, ExtractedQuestion extractedQuestion)
         {
             if (questions.Any(q => q.Text.FuzzyEquals(resultLine.Text))) // "exact" fuzzy match
             {
-                var relatedQuestionMatch = questions.Where(q => q.Text.FuzzyEquals(resultLine.Text))
-                    .Select(q => new QuestionMatch
-                    {
-                        Question = q,
-                        Match = q.Text.FuzzyMatch(resultLine.Text)
-                    }).OrderByDescending(x => x.Match);
+                var relatedQuestionMatch = questions.Where(q => q.Text.FuzzyEquals(resultLine.Text.ToLower()))
+                     .Select(q => new QuestionMatch
+                     {
+                         Question = q,
+                         Match = q.Text.FuzzyMatch(resultLine.Text.ToLower())
+                     }).OrderByDescending(x => x.Match);
 
 
                 var question = relatedQuestionMatch.First().Question;
 
-                var relatedAnswers = question.Answers;
-
-                var extractedQuestion = new ExtractedQuestion()
+                extractedQuestion = new ExtractedQuestion()
                 {
                     ResultLine = resultLine,
-                    QuestionAnswerType = question.QuestionAnswerType
+                    QuestionAnswerType = question.QuestionAnswerType,
+                    Original = question
                 };
 
                 extractedQuestions.Add(extractedQuestion);
-
-                switch (question.QuestionAnswerType)
-                {
-                    case QuestionAnswerType.FreeText:
-                        HandleFreeTextQuestion(extractedQuestion);
-                        break;
-
-                    case QuestionAnswerType.UnderCheckBox:
-                        HandleAnswers(question, relatedAnswers, extractedQuestion);
-                        break;
-
-                    default:
-                        break;
-                }
             }
-            //not needed maybe anymore 
-            //else if (questions.Any(q => q.Text.FuzzyEquals(resultLine.Text)))
-            //{
-            //    var nextItem = resultLinesQueue.Dequeue();
-            //    var concat = resultLine.Text + " " + nextItem.Text;
 
-            //    resultLine.Words.AddRange(nextItem.Words);
-            //    var item4Send = new ResultLine()
-            //    {
-            //        Text = concat,
-            //        Position = resultLine.Position,
-            //        Words = resultLine.Words
-            //    };
+            if (extractedQuestion != null)
+            {
+                //handle invalin junk content
+                //when something is found and not related to any question 
+                //can be added as junk 
+                //this is specific for each question Type
+                //verify is not question or answer and add it junk
 
-            //    ProccessQueue(item4Send);
-            //}
+                HandleQuestionAnswers(extractedQuestion);
+            }
+
+            if (extractedQuestion == null && IsLineQuestion(resultLine.Text.ToLower()))
+            {
+                throw new ApplicationException("Answer without question!");
+            }
+
+            return extractedQuestion;
+        }
+
+        private static void HandleQuestionAnswers(ExtractedQuestion question)
+        {
+            switch (question.QuestionAnswerType)
+            {
+                case QuestionAnswerType.FreeText:
+                    HandleFreeTextQuestion(question);
+                    break;
+
+                case QuestionAnswerType.UnderCheckBox:
+                    HandleAnswers(question.Original.Answers, question);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private static bool IsLineQuestion(string text)
+        {
+            //TODO strip answer if nessery 
+            bool result = answers.Any(q => q.Text.FuzzyEquals(text));
+            return result;
         }
 
         private static void HandleFreeTextQuestion(ExtractedQuestion extractedQuestion)
@@ -207,47 +228,49 @@ namespace ComputerVisionQuickstart
             });
         }
 
-        private static void HandleAnswers(Question question, List<Answer> predefAnswers, ExtractedQuestion extractedQuestion)
+        private static void HandleAnswers(List<Answer> predefAnswers, ExtractedQuestion extractedQuestion)
         {
             bool haveToSearch = true;
             while (haveToSearch)
             {
+                if (!resultLinesQueue.Any())
+                {
+                    return;
+                }
                 var current = resultLinesQueue.Peek();
                 var userInput = current.Text.ToLower();
 
-                if (question.Text.EndsWith(current.Text)) //Todo make this with fuzzy mathc
+                if (extractedQuestion.Original.Text.EndsWith(current.Text)) //Todo make this with fuzzy match
                 {
                     resultLinesQueue.Dequeue();
                     current = resultLinesQueue.Peek();
-                    HandleAnswers(question, predefAnswers, extractedQuestion);
+                    HandleAnswers(predefAnswers, extractedQuestion);
                 }
 
-                var match = Regex.Match(current.Text, @"^[a-z] ?\.? ?\)?$"); //there is a problem only the a) is captured
+                var match = Regex.Match(current.Text, @"^[a-z] ?\.? ?\)?$"); //there is a problem only the a) a ) a.) a. ) a) is captured
 
                 if (match.Success)
                 {
                     resultLinesQueue.Dequeue();
-                    HandleAnswers(question, predefAnswers, extractedQuestion);
+                    HandleAnswers(predefAnswers, extractedQuestion);
                 }
 
                 bool haveToStripAnswer = Regex.Match(userInput, @"^[a-z] ??\. ?s?\)?.*").Success;
                 if (haveToStripAnswer)
                 {
-                    var test = Regex.Replace(current.Text, @"^[a-z] ?\.? ?\)?", string.Empty);
-                    userInput = test;
+                    userInput = Regex.Replace(current.Text, @"^[a-z] ?\.? ?\)?", string.Empty);
                 }
 
-                //todo strip 
-
                 //it will be good to strip this a.) / a. 
+                //TODO test with 0.75 Default
                 if (predefAnswers.Any(x => userInput.FuzzyEquals(x.Text.ToLower(), 0.60)))
                 {
-                    var a = new ExtractedAnswer()
+                    var answer = new ExtractedAnswer()
                     {
                         ResultLine = current
                     };
 
-                    extractedQuestion.ExtractedAnswers.Add(a);
+                    extractedQuestion.ExtractedAnswers.Add(answer);
                     resultLinesQueue.Dequeue();
                 }
 
@@ -257,11 +280,5 @@ namespace ComputerVisionQuickstart
                 }
             }
         }
-    }
-    public class QuestionMatch
-    {
-        public Question Question { get; set; }
-
-        public double Match { get; set; }
     }
 }

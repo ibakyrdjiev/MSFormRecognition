@@ -16,6 +16,8 @@ namespace ComputerVision.Models
         public List<ExtractedAnswer> ExtractedAnswers { get; set; }
 
         public QuestionAnswerType QuestionAnswerType { get; set; }
+
+        public Question Original { get; set; }
     }
 
     public class ExtractedAnswer
