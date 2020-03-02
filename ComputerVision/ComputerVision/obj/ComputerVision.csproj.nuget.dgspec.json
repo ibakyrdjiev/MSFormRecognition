@@ -46,6 +46,10 @@
               "target": "Package",
               "version": "[6.0.0-dev.20190919.3, )"
             },
+            "Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
             "Microsoft.NETCore.App": {
               "suppressParent": "All",
               "target": "Package",

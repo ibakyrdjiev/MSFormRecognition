@@ -26,6 +26,21 @@
           "lib/netstandard2.0/Microsoft.Azure.CognitiveServices.Vision.ComputerVision.dll": {}
         }
       },
+      "Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Rest.ClientRuntime": "[2.3.19, 3.0.0)",
+          "Microsoft.Rest.ClientRuntime.Azure": "[3.3.19, 4.0.0)",
+          "Newtonsoft.Json": "10.0.3",
+          "System.Net.Http": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -254,18 +269,17 @@
           "lib/netstandard2.0/Microsoft.Rest.ClientRuntime.dll": {}
         }
       },
-      "Microsoft.Rest.ClientRuntime.Azure/3.3.18": {
+      "Microsoft.Rest.ClientRuntime.Azure/3.3.19": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Rest.ClientRuntime": "[2.3.17, 3.0.0)",
-          "NETStandard.Library": "1.6.1",
+          "Microsoft.Rest.ClientRuntime": "[2.3.19, 3.0.0)",
           "Newtonsoft.Json": "10.0.3"
         },
         "compile": {
-          "lib/netstandard1.4/Microsoft.Rest.ClientRuntime.Azure.dll": {}
+          "lib/netstandard2.0/Microsoft.Rest.ClientRuntime.Azure.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.4/Microsoft.Rest.ClientRuntime.Azure.dll": {}
+          "lib/netstandard2.0/Microsoft.Rest.ClientRuntime.Azure.dll": {}
         }
       },
       "NETStandard.Library/2.0.0": {
@@ -1412,6 +1426,29 @@
         "microsoft.azure.cognitiveservices.vision.computervision.nuspec"
       ]
     },
+    "Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction/1.0.0": {
+      "sha512": "0m+BdJlFncuYnqy7gQeO2S4vsdx8lt9S884STmYjoi8KllOBX5DFvrBGQJGEOMrd8nApe2Zupf3eGvEJ4ZmGmw==",
+      "type": "package",
+      "path": "microsoft.azure.cognitiveservices.vision.customvision.prediction/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net452/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.dll",
+        "lib/net452/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.runtimeconfig.json",
+        "lib/net452/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.xml",
+        "lib/net461/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.dll",
+        "lib/net461/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.runtimeconfig.json",
+        "lib/net461/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.xml",
+        "lib/netstandard1.4/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.dll",
+        "lib/netstandard1.4/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.runtimeconfig.json",
+        "lib/netstandard1.4/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.xml",
+        "lib/netstandard2.0/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.dll",
+        "lib/netstandard2.0/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.runtimeconfig.json",
+        "lib/netstandard2.0/Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.xml",
+        "microsoft.azure.cognitiveservices.vision.customvision.prediction.1.0.0.nupkg.sha512",
+        "microsoft.azure.cognitiveservices.vision.customvision.prediction.nuspec"
+      ]
+    },
     "Microsoft.CSharp/4.3.0": {
       "sha512": "P+MBhIM0YX+JqROuf7i306ZLJEjQYA9uUyRDE+OqwUI5sh41e2ZbPQV3LfAPh+29cmceE1pUffXsGfR4eMY3KA==",
       "type": "package",
@@ -1848,20 +1885,26 @@
         "microsoft.rest.clientruntime.nuspec"
       ]
     },
-    "Microsoft.Rest.ClientRuntime.Azure/3.3.18": {
-      "sha512": "pCtem10PRQYvzRiwJVInsccsqB0NrTjW83NF3zWk1LpN3IS0AneZKq89RyogDT7mRMT1Li/mLY8N8kU6RAiK0g==",
+    "Microsoft.Rest.ClientRuntime.Azure/3.3.19": {
+      "sha512": "+NVBWvRXNwaAPTZUxjUlQggsrf3X0GbiRoxYfgc3kG9E55ZxZxvZPT3nIfC4DNqzGSXUEvmLbckdXgBBzGdUaA==",
       "type": "package",
-      "path": "microsoft.rest.clientruntime.azure/3.3.18",
+      "path": "microsoft.rest.clientruntime.azure/3.3.19",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/net452/Microsoft.Rest.ClientRuntime.Azure.dll",
         "lib/net452/Microsoft.Rest.ClientRuntime.Azure.runtimeconfig.json",
         "lib/net452/Microsoft.Rest.ClientRuntime.Azure.xml",
+        "lib/net461/Microsoft.Rest.ClientRuntime.Azure.dll",
+        "lib/net461/Microsoft.Rest.ClientRuntime.Azure.runtimeconfig.json",
+        "lib/net461/Microsoft.Rest.ClientRuntime.Azure.xml",
         "lib/netstandard1.4/Microsoft.Rest.ClientRuntime.Azure.dll",
         "lib/netstandard1.4/Microsoft.Rest.ClientRuntime.Azure.runtimeconfig.json",
         "lib/netstandard1.4/Microsoft.Rest.ClientRuntime.Azure.xml",
-        "microsoft.rest.clientruntime.azure.3.3.18.nupkg.sha512",
+        "lib/netstandard2.0/Microsoft.Rest.ClientRuntime.Azure.dll",
+        "lib/netstandard2.0/Microsoft.Rest.ClientRuntime.Azure.runtimeconfig.json",
+        "lib/netstandard2.0/Microsoft.Rest.ClientRuntime.Azure.xml",
+        "microsoft.rest.clientruntime.azure.3.3.19.nupkg.sha512",
         "microsoft.rest.clientruntime.azure.nuspec"
       ]
     },
@@ -5132,6 +5175,7 @@
     ".NETCoreApp,Version=v2.0": [
       "FuzzyStrings.NetStandard >= 1.0.1",
       "Microsoft.Azure.CognitiveServices.Vision.ComputerVision >= 6.0.0-dev.20190919.3",
+      "Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction >= 1.0.0",
       "Microsoft.NETCore.App >= 2.0.0"
     ]
   },
@@ -5179,6 +5223,10 @@
           "Microsoft.Azure.CognitiveServices.Vision.ComputerVision": {
             "target": "Package",
             "version": "[6.0.0-dev.20190919.3, )"
+          },
+          "Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction": {
+            "target": "Package",
+            "version": "[1.0.0, )"
           },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
