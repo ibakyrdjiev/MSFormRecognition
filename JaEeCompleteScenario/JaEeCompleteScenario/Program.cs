@@ -19,7 +19,7 @@ namespace JaEeCompleteScenario
         private static List<Question> questions = new List<Question>();
         private static List<ExtractedQuestion> extractedQuestions = new List<ExtractedQuestion>();
         private static TextRecognitionResult documentResult;
-        private static List<Position> predictedPositions = new List<Position>();
+        private static List<System.Drawing.Rectangle> predictedRectanglePositions = new List<System.Drawing.Rectangle>();
         public static Queue<ResultLine> resultLinesQueue = new Queue<ResultLine>();
         public static List<string> textLines = new List<string>();
 
@@ -50,7 +50,7 @@ namespace JaEeCompleteScenario
             // <snippet_prediction>
             // Make a prediction against the new project
             Console.WriteLine("Making a prediction:");
-            var imageFile = @"C:\Users\Mitko\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34-1.jpg";
+            var imageFile = @"../../../Resources/Docs/image.png";//@"C:\Users\Mitko\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34-1.jpg";
             using (var stream = File.OpenRead(imageFile))
             {
                 var result = endpoint.DetectImage(projectId, publishedModelName, File.OpenRead(imageFile));
@@ -78,7 +78,7 @@ namespace JaEeCompleteScenario
             var subscriptionKey = "66df573a2f964d3a90f32e038bb0f6de";
             var endpoint = "https://computervisiontestmm.cognitiveservices.azure.com/";
             //var EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34.pdf";
-            var EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\Mitko\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34-1.jpg";
+            var EXTRACT_TEXT_LOCAL_IMAGE = @"../../../Resources/Docs/image.png";//@"C:\Users\Mitko\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34-1.jpg";
 
             questions = Utils.GetFakeQuestions();
             ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
@@ -318,11 +318,11 @@ namespace JaEeCompleteScenario
         {
             foreach (var predictionModel in predictions)
             {
-                var position = ConvertToPixelDimensions(predictionModel);
-                predictedPositions.Add(position);
+                var area = ConvertToPixelAreas(predictionModel);
+                predictedRectanglePositions.Add(area);
             }
         }
-        
+
         private static List<ExtractedQuestion> MatchPredictionsWithAnswers()
         {
             var checkTypeQuestions = extractedQuestions
@@ -333,187 +333,49 @@ namespace JaEeCompleteScenario
             {
                 foreach (var answer in question.ExtractedAnswers)
                 {
-                    var answerPosition = answer.ResultLine.Position;
+                    var answerPosition = answer.ResultLine.Position.ReturnAsRectangle();
 
-                    foreach (var predictedPosition in predictedPositions)
+                    foreach (var predictedPosition in predictedRectanglePositions)
                     {
-                        var selectArea = (predictedPosition.TopRight.X - predictedPosition.TopLeft.X) * (predictedPosition.BottomLeft.Y - predictedPosition.TopLeft.Y);
+                        var haveIntersection = predictedPosition.IntersectsWith(answerPosition);
 
-                        //I. A is entirely in B
-                        if (predictedPosition.TopLeft.X >= answerPosition.TopLeft.X && predictedPosition.TopLeft.Y >= answerPosition.TopLeft.Y
-                            && 
-                            predictedPosition.TopRight.X <= answerPosition.TopRight.X && predictedPosition.TopRight.Y >= answerPosition.TopRight.Y
-                            &&
-                            predictedPosition.BottomLeft.X >= answerPosition.BottomLeft.X && predictedPosition.BottomLeft.Y <= answerPosition.BottomLeft.Y
-                            &&
-                            predictedPosition.BottomRight.X <= answerPosition.BottomRight.X && predictedPosition.BottomRight.Y <= answerPosition.BottomRight.Y
-                            )
+                        if (haveIntersection)
                         {
+                            var predictionArea = predictedPosition.Width * predictedPosition.Height;
+
+                            predictedPosition.Intersect(answerPosition);
+
                             question.IsAnswered = true;
                             answer.IsSelected = true;
-                            answer.Coverage = 1;
+                            answer.Coverage = predictedPosition.Width * predictedPosition.Height * 100.0 / predictionArea;
                         }
+                    }
+                }
 
-                        //II. A is parthly in B
-                        //II.a One poin of A is inside B
+                if (question.IsAnswered)
+                {
+                    var potentialAnswers = question.ExtractedAnswers.Where(a => a.IsSelected);
 
-                        //If only top left is inside
-                        else if (predictedPosition.TopLeft.X >= answerPosition.TopLeft.X && predictedPosition.TopLeft.Y >= answerPosition.TopLeft.Y
-                            &&
-                            predictedPosition.TopLeft.X < answerPosition.TopRight.X && predictedPosition.TopLeft.Y < answerPosition.BottomRight.Y
-                            &&
-                            predictedPosition.TopRight.X >= answerPosition.TopRight.X
-                            &&
-                            predictedPosition.BottomLeft.Y >= answerPosition.BottomLeft.Y
-                            )
-                        {
-                            question.IsAnswered = true;
-                            answer.IsSelected = true;
-                            answer.Coverage = (answerPosition.TopRight.X - predictedPosition.TopLeft.X) * (answerPosition.BottomLeft.Y - predictedPosition.TopLeft.Y) / selectArea; ;
-                        }
-
-                        //If only top right is inside
-                        else if (predictedPosition.TopRight.X > answerPosition.TopLeft.X && predictedPosition.TopRight.Y >= answerPosition.TopLeft.Y
-                            &&
-                            predictedPosition.TopRight.X <= answerPosition.TopRight.X && predictedPosition.TopRight.Y < answerPosition.BottomLeft.Y
-                            &&
-                            predictedPosition.TopLeft.X <= answerPosition.TopLeft.X
-                            &&
-                            predictedPosition.BottomRight.Y >= answerPosition.BottomLeft.Y
-                            )
-                        {
-                            question.IsAnswered = true;
-                            answer.IsSelected = true;
-                            answer.Coverage = (predictedPosition.TopRight.X - answerPosition.TopLeft.X) * (answerPosition.BottomLeft.Y - predictedPosition.TopRight.Y) / selectArea; ;
-                        }
-
-                        //If only bottom right is inside
-                        else if (predictedPosition.BottomRight.X > answerPosition.TopLeft.X && predictedPosition.BottomRight.Y > answerPosition.TopLeft.Y
-                            &&
-                            predictedPosition.BottomRight.X <= answerPosition.TopRight.X && predictedPosition.BottomRight.Y <= answerPosition.BottomLeft.Y
-                            &&
-                            predictedPosition.BottomLeft.X <= answerPosition.TopLeft.X
-                            &&
-                            predictedPosition.TopRight.Y <= answerPosition.TopLeft.Y
-                            )
-                        {
-                            question.IsAnswered = true;
-                            answer.IsSelected = true;
-                            answer.Coverage = (predictedPosition.BottomRight.X - answerPosition.TopLeft.X) * (predictedPosition.BottomRight.Y - answerPosition.TopLeft.Y) / selectArea; ;
-                        }
-
-                        //If only bottom right is inside
-                        else if (predictedPosition.BottomRight.X > answerPosition.TopLeft.X && predictedPosition.BottomRight.Y > answerPosition.TopLeft.Y
-                            &&
-                            predictedPosition.BottomRight.X <= answerPosition.TopRight.X && predictedPosition.BottomRight.Y <= answerPosition.BottomLeft.Y
-                            &&
-                            predictedPosition.BottomLeft.X <= answerPosition.TopLeft.X
-                            &&
-                            predictedPosition.TopRight.Y <= answerPosition.TopLeft.Y
-                            )
-                        {
-                            question.IsAnswered = true;
-                            answer.IsSelected = true;
-                            answer.Coverage = (predictedPosition.BottomRight.X - answerPosition.TopLeft.X) * (predictedPosition.BottomRight.Y - answerPosition.TopLeft.Y) / selectArea; ;
-                        }
-
-                        //If only bottom left is inside
-                        else if (predictedPosition.BottomLeft.X >= answerPosition.TopLeft.X && predictedPosition.BottomLeft.Y > answerPosition.TopLeft.Y
-                            &&
-                            predictedPosition.BottomLeft.X < answerPosition.TopRight.X && predictedPosition.BottomLeft.Y <= answerPosition.BottomLeft.Y
-                            &&
-                            predictedPosition.BottomRight.X >= answerPosition.TopRight.X
-                            &&
-                            predictedPosition.TopLeft.Y <= answerPosition.TopLeft.Y
-                            )
-                        {
-                            question.IsAnswered = true;
-                            answer.IsSelected = true;
-                            answer.Coverage = (answerPosition.TopRight.X - predictedPosition.BottomLeft.X) * (predictedPosition.BottomLeft.Y - answerPosition.TopRight.Y) / selectArea; ;
-                        }
-
-                        //II.b Two points of A are inside B
-                        //If top right and bottom right are inside
-                        else if (predictedPosition.TopRight.X > answerPosition.TopLeft.X && predictedPosition.TopRight.Y >= answerPosition.TopLeft.Y
-                            &&
-                            predictedPosition.TopRight.X <= answerPosition.TopRight.X
-                            &&
-                            predictedPosition.BottomRight.Y <= answerPosition.BottomRight.Y
-                            &&
-                            predictedPosition.TopLeft.X <= answerPosition.TopLeft.X
-                            )
-                        {
-                            question.IsAnswered = true;
-                            answer.IsSelected = true;
-                            answer.Coverage = (predictedPosition.TopRight.X - answerPosition.TopLeft.X) * (predictedPosition.BottomRight.Y - predictedPosition.TopRight.Y) / selectArea; ;
-                        }
-
-                        //If bottom left and bottom right are inside
-                        else if (predictedPosition.BottomLeft.X > answerPosition.TopLeft.X && predictedPosition.BottomLeft.Y > answerPosition.TopLeft.Y
-                            &&
-                            predictedPosition.BottomRight.X <= answerPosition.TopRight.X
-                            &&
-                            predictedPosition.BottomRight.Y > answerPosition.TopLeft.Y && predictedPosition.BottomRight.Y <= answerPosition.BottomRight.Y
-                            &&
-                            predictedPosition.TopLeft.Y <= answerPosition.TopLeft.Y
-                            )
-                        {
-                            question.IsAnswered = true;
-                            answer.IsSelected = true;
-                            answer.Coverage = (predictedPosition.BottomLeft.Y - answerPosition.TopLeft.Y) * (predictedPosition.BottomRight.X - predictedPosition.BottomLeft.X) / selectArea; ;
-                        }
-
-                        //If top left and bottom left are inside
-                        else if (predictedPosition.TopLeft.X < answerPosition.TopRight.X && predictedPosition.TopLeft.Y >= answerPosition.TopLeft.Y
-                            &&
-                            predictedPosition.BottomLeft.Y <= answerPosition.TopRight.Y
-                            &&
-                            predictedPosition.TopRight.X >= answerPosition.TopRight.X
-                            )
-                        {
-                            question.IsAnswered = true;
-                            answer.IsSelected = true;
-                            answer.Coverage = (answerPosition.TopRight.X - predictedPosition.TopLeft.X) * (predictedPosition.BottomLeft.Y - predictedPosition.TopLeft.Y) / selectArea; ;
-                        }
-
-                        //If top left and top right are inside
-                        else if (predictedPosition.TopLeft.Y >= answerPosition.TopRight.Y && predictedPosition.TopLeft.Y < answerPosition.BottomLeft.Y
-                            &&
-                            predictedPosition.TopRight.X <= answerPosition.TopRight.X
-                            &&
-                            predictedPosition.BottomLeft.Y >= answerPosition.BottomLeft.Y
-                            )
-                        {
-                            question.IsAnswered = true;
-                            answer.IsSelected = true;
-                            answer.Coverage = (answerPosition.BottomLeft.Y - predictedPosition.TopLeft.Y) * (predictedPosition.TopRight.X - predictedPosition.TopLeft.X) / selectArea; ;
-                        }
-                        else
-                        {
-                            ///III. A is outside B
-                        }
-
-
+                    if (potentialAnswers.Count() > 1)
+                    {
+                        potentialAnswers.OrderByDescending(a => a.Coverage).Skip(1).Select(a => { a.IsSelected = false; return a; }).ToList();
                     }
                 }
             }
 
             return checkTypeQuestions;
-            
         }
 
-        private static Position ConvertToPixelDimensions(PredictionModel predictionModel)
+        private static System.Drawing.Rectangle ConvertToPixelAreas(PredictionModel predictionModel)
         {
             var box = predictionModel.BoundingBox;
-            var verticalCorrection = 10;
 
-            var position = new Position();
-            position.TopLeft = new Point(box.Left * documentResult.Width.Value, box.Top * documentResult.Height.Value + verticalCorrection);
-            position.TopRight = new Point(position.TopLeft.X + box.Width * documentResult.Width.Value, position.TopLeft.Y + verticalCorrection);
-            position.BottomLeft = new Point(position.TopLeft.X, position.TopLeft.Y + box.Height * documentResult.Height.Value + verticalCorrection);
-            position.BottomRight = new Point(position.TopRight.X, position.BottomLeft.Y + verticalCorrection);
+            var left = box.Left * documentResult.Width.Value;
+            var top = box.Top * documentResult.Height.Value;
+            var width = box.Width * documentResult.Width.Value;
+            var heigh = box.Height * documentResult.Height.Value;
 
-            return position;
+            return new System.Drawing.Rectangle((int)left, (int)top, (int)width, (int)heigh);
         }
     }
 
@@ -523,5 +385,4 @@ namespace JaEeCompleteScenario
 
         public double Match { get; set; }
     }
-
 }
