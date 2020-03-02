@@ -44,6 +44,17 @@ namespace JaEeCompleteScenario
 
         private static void DisplayResults(List<ExtractedQuestion> matchedQuestions, List<ExtractedQuestion> freeTextQuestions)
         {
+
+            Console.WriteLine("Free text");
+            Console.WriteLine("--------------------");
+            foreach (var q in freeTextQuestions)
+            {
+                Console.WriteLine($"Question: {q.ResultLine.Text}");
+                Console.WriteLine($"    {q.ExtractedAnswers.FirstOrDefault().ResultLine.Text}");
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("--------------------");
             Console.WriteLine("--------------------");
             foreach (var q in matchedQuestions)
             {
