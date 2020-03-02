@@ -8,8 +8,8 @@ namespace Image_Concatenator
 {
     class Program
     {
-        const int HORIZONTAL_SECTIONS_COUNT = 6;
-        const int VERTICAL_SECTIONS_COUNT = 6;
+        const int HORIZONTAL_SECTIONS_COUNT = 10;
+        const int VERTICAL_SECTIONS_COUNT = 10;
 
         static void Main(string[] args)
         {

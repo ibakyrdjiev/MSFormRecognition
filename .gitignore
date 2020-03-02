@@ -351,3 +351,11 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+ComputerVision/.vs/ComputerVision/v16/Server/sqlite3/db.lock
+ComputerVision/.vs/ComputerVision/DesignTimeBuild/.dtbcache
+ComputerVision/.vs/ComputerVision/v16/.suo
+ComputerVision/.vs/ComputerVision/v16/Server/sqlite3/storage.ide
+*.suo
+*.dtbcache
+JaEeCompleteScenario/JaEeCompleteScenario/Resources/Docs/image.png
