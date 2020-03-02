@@ -11,6 +11,8 @@ namespace ComputerVision.Models
             this.ExtractedAnswers = new List<ExtractedAnswer>();
         }
 
+        public string DisplayText { get; set; }
+
         public ResultLine ResultLine { get; set; }
 
         public List<ExtractedAnswer> ExtractedAnswers { get; set; }
@@ -24,6 +26,8 @@ namespace ComputerVision.Models
 
     public class ExtractedAnswer
     {
+        public string DisplayText { get; set; }
+
         public ResultLine ResultLine { get; set; }
 
         public bool IsSelected { get; set; }

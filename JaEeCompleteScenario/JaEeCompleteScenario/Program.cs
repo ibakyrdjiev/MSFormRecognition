@@ -25,13 +25,43 @@ namespace JaEeCompleteScenario
 
         static void Main(string[] args)
         {
-            var predictionResult = MakePrediction();
-            ParseDocument();
+            List<string> images = new List<string>()
+            {
+                @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\JaEeCompleteScenario\JaEeCompleteScenario\surveys\survey34-1.jpg",
+                   //@"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\JaEeCompleteScenario\JaEeCompleteScenario\surveys\5.jpg",
+                @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\JaEeCompleteScenario\JaEeCompleteScenario\surveys\4.jpg",
+            };
+
+            var image = images[0];
+
+            var predictionResult = MakePrediction(image);
+            ParseDocument(image);
             ConvertPredictionResults(predictionResult);
             var matchedQuestions = MatchPredictionsWithAnswers();
+            var freeTextQuestions = extractedQuestions.Where(q => q.QuestionAnswerType == QuestionAnswerType.FreeText).ToList();
+            DisplayResults(matchedQuestions, freeTextQuestions);
         }
 
-        private static List<PredictionModel> MakePrediction()
+        private static void DisplayResults(List<ExtractedQuestion> matchedQuestions, List<ExtractedQuestion> freeTextQuestions)
+        {
+            Console.WriteLine("--------------------");
+            foreach (var q in matchedQuestions)
+            {
+                Console.WriteLine($"Question: {q.ResultLine.Text}");
+
+                foreach (var a in q.ExtractedAnswers)
+                {
+                    Console.WriteLine($"    {a.ResultLine.Text} ");
+                }
+
+                var selected = q.ExtractedAnswers.OrderByDescending(x => x.Coverage).FirstOrDefault();
+
+                Console.WriteLine($"Selected: {selected.ResultLine.Text}");
+            }
+            Console.WriteLine("--------------------");
+        }
+
+        private static List<PredictionModel> MakePrediction(string imageFile)
         {
             var predictionKey = "1bce06510cae4a33a3c50ce1d11d5e68";
             var endpointUrl = "https://southcentralus.api.cognitive.microsoft.com/";
@@ -50,7 +80,6 @@ namespace JaEeCompleteScenario
             // <snippet_prediction>
             // Make a prediction against the new project
             Console.WriteLine("Making a prediction:");
-            var imageFile = @"C:\Users\Mitko\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34-1.jpg";
             using (var stream = File.OpenRead(imageFile))
             {
                 var result = endpoint.DetectImage(projectId, publishedModelName, File.OpenRead(imageFile));
@@ -73,12 +102,11 @@ namespace JaEeCompleteScenario
             // </snippet_prediction>
         }
 
-        private static void ParseDocument()
+        private static void ParseDocument(string EXTRACT_TEXT_LOCAL_IMAGE)
         {
             var subscriptionKey = "66df573a2f964d3a90f32e038bb0f6de";
             var endpoint = "https://computervisiontestmm.cognitiveservices.azure.com/";
             //var EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\iliya.bakyrdjiev\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34.pdf";
-            var EXTRACT_TEXT_LOCAL_IMAGE = @"C:\Users\Mitko\Documents\MSFormRecognition\ComputerVision\ComputerVision\surveys\survey34-1.jpg";
 
             questions = Utils.GetFakeQuestions();
             ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
@@ -322,7 +350,7 @@ namespace JaEeCompleteScenario
                 predictedPositions.Add(position);
             }
         }
-        
+
         private static List<ExtractedQuestion> MatchPredictionsWithAnswers()
         {
             var checkTypeQuestions = extractedQuestions
@@ -341,7 +369,7 @@ namespace JaEeCompleteScenario
 
                         //I. A is entirely in B
                         if (predictedPosition.TopLeft.X >= answerPosition.TopLeft.X && predictedPosition.TopLeft.Y >= answerPosition.TopLeft.Y
-                            && 
+                            &&
                             predictedPosition.TopRight.X <= answerPosition.TopRight.X && predictedPosition.TopRight.Y >= answerPosition.TopRight.Y
                             &&
                             predictedPosition.BottomLeft.X >= answerPosition.BottomLeft.X && predictedPosition.BottomLeft.Y <= answerPosition.BottomLeft.Y
@@ -499,7 +527,7 @@ namespace JaEeCompleteScenario
             }
 
             return checkTypeQuestions;
-            
+
         }
 
         private static Position ConvertToPixelDimensions(PredictionModel predictionModel)
