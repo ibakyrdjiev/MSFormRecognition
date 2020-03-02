@@ -505,12 +505,13 @@ namespace JaEeCompleteScenario
         private static Position ConvertToPixelDimensions(PredictionModel predictionModel)
         {
             var box = predictionModel.BoundingBox;
+            var verticalCorrection = 10;
 
             var position = new Position();
-            position.TopLeft = new Point(box.Left * documentResult.Width.Value, box.Top * documentResult.Height.Value);
-            position.TopRight = new Point(position.TopLeft.X + box.Width * documentResult.Width.Value, position.TopLeft.Y);
-            position.BottomLeft = new Point(position.TopLeft.X, position.TopLeft.Y + box.Height * documentResult.Height.Value);
-            position.BottomRight = new Point(position.TopRight.X, position.BottomLeft.Y);
+            position.TopLeft = new Point(box.Left * documentResult.Width.Value, box.Top * documentResult.Height.Value + verticalCorrection);
+            position.TopRight = new Point(position.TopLeft.X + box.Width * documentResult.Width.Value, position.TopLeft.Y + verticalCorrection);
+            position.BottomLeft = new Point(position.TopLeft.X, position.TopLeft.Y + box.Height * documentResult.Height.Value + verticalCorrection);
+            position.BottomRight = new Point(position.TopRight.X, position.BottomLeft.Y + verticalCorrection);
 
             return position;
         }
