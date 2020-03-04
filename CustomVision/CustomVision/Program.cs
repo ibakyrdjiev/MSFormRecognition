@@ -17,12 +17,12 @@ namespace CustomVision
     {
         const string PUBLISHED_MODEL_NAME = "JAEEDemo";
 
-        const string CUSTOM_VISION_TRAINING_KEY = "f0f993e52e94493faf84d135db2725cc";//"9506a73df77b4e88be20dd7a355bb4d2";
-        const string CUSTOM_VISION_PREDICTION_KEY = "1bce06510cae4a33a3c50ce1d11d5e68";//"c522f37502854d9887d188795d16896d";
-        const string CUSTOM_VISION_RESOURCE_ID = "/subscriptions/0634210f-5cfc-4b05-b3c3-79f9d72d3739/resourceGroups/logicAppDemo/providers/Microsoft.CognitiveServices/accounts/customvision_prediction";//"/subscriptions/b0e57d14-9b06-4922-bd9d-7881f975b398/resourceGroups/of_first_attempt_resource_group/providers/Microsoft.CognitiveServices/accounts/ja-first-demo-Prediction";
+        const string CUSTOM_VISION_TRAINING_KEY = "f0f993e52e94493faf84d135db2725cc";
+        const string CUSTOM_VISION_PREDICTION_KEY = "1bce06510cae4a33a3c50ce1d11d5e68";
+        const string CUSTOM_VISION_RESOURCE_ID = "/subscriptions/0634210f-5cfc-4b05-b3c3-79f9d72d3739/resourceGroups/logicAppDemo/providers/Microsoft.CognitiveServices/accounts/customvision_prediction";
         const string CUSTOM_VISION_ENDPOINT = "https://southcentralus.api.cognitive.microsoft.com/";
 
-        static readonly Guid PROJECT_ID = new Guid("4bd6a5cf-6046-4969-ab60-f2f387136acb");
+        static readonly Guid PROJECT_ID = new Guid("0ad86e2d-06ad-4788-b66f-f894c3284bb9");//new Guid("b0afb9d4 -10c4-4940-b9fb-b9e46c97c61e"); <- official
 
         const string PROJECT_TYPE = "ObjectDetection";
         const int BATCH_SIZE = 25;
@@ -33,10 +33,39 @@ namespace CustomVision
 
         static void Main(string[] args)
         {
-            const string Project_Name = "FA EE Demo";
+            const string Project_Name = "FA EE Demo Test";
 
-            CreateAndPublishProject(Project_Name);
-            //TrainModelAdditionally();
+            switch (Actions.CreateProject)
+            {
+                case Actions.CreateProject:
+                    CreateAndPublishProject(Project_Name);
+                    break;
+                case Actions.TrainProjectAdditionally:
+                    TrainModelAdditionally();
+                    break;
+                case Actions.DeleteProject:
+                    DeleteProject();
+                    break;
+            }
+        }
+
+        private static void DeleteProject()
+        {
+            CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient()
+            {
+                ApiKey = CUSTOM_VISION_TRAINING_KEY,
+                Endpoint = CUSTOM_VISION_ENDPOINT
+            };
+
+            var iterations = trainingApi.GetIterations(PROJECT_ID);
+           
+            foreach (var iteration in iterations)
+            {
+                trainingApi.UnpublishIteration(PROJECT_ID, iteration.Id);
+                trainingApi.DeleteIteration(PROJECT_ID, iteration.Id);
+            }
+
+            trainingApi.DeleteProject(PROJECT_ID);
         }
 
         private static void TrainModelAdditionally()
@@ -95,15 +124,19 @@ namespace CustomVision
             // Make two tags in the new project
             var circleTag = trainingApi.CreateTag(project.Id, Tags.Cicle.GetDescription());
             var xTag = trainingApi.CreateTag(project.Id, Tags.X.GetDescription());
+            //var xCheckBox = trainingApi.CreateTag(project.Id, "Negative");
 
             Guid circleTagId = circleTag.Id;
             Guid xTagId = xTag.Id;
 
+            var tagIds = new Nullable<Guid>[] { circleTagId, xTagId };
+            //Guid boxTagId = xCheckBox.Id;
+
             ConcurrentDictionary<string, List<Region>> imgNamesToLabelRegions = new ConcurrentDictionary<string, List<Region>>();
 
-            AddLabeledRegionsFromXML(imgNamesToLabelRegions, circleTagId, xTagId);
+            AddLabeledRegionsFromXML(imgNamesToLabelRegions, tagIds);
 
-            AddLabeledRegionsFromImgGridFiles(imgNamesToLabelRegions, circleTagId, xTagId);
+            AddLabeledRegionsFromImgGridFiles(imgNamesToLabelRegions, tagIds);
 
             var iteration = TrainModelWithImageFiles(project.Id, trainingApi, imgNamesToLabelRegions);
 
@@ -177,7 +210,7 @@ namespace CustomVision
         /// <param name="imgNamesToLabelRegions">All labeled regions per image</param>
         /// <param name="circleTagId">Tag id. In case of null value we do not load files for this tag.</param>
         /// <param name="xTagId">Tag id. In case of null value we do not load files for this tag.</param>
-        private static void AddLabeledRegionsFromImgGridFiles(ConcurrentDictionary<string, List<Region>> imgNamesToLabelRegions, Guid? circleTagId, Guid? xTagId)
+        private static void AddLabeledRegionsFromImgGridFiles(ConcurrentDictionary<string, List<Region>> imgNamesToLabelRegions, params Nullable<Guid>[] tagIds)
         {
             Parallel.ForEach(Directory.GetFiles(@"../../../Resources/Training_Pictures"), (path) => {
 
@@ -186,7 +219,7 @@ namespace CustomVision
                     var repeatingImagesInfoParts = path.Substring(path.LastIndexOf('_') + 1).Replace(IMG_FILE_EXTENSION, string.Empty).Split(IMG_GRID_FILE_NAME_PARAM_SPLITTER).Select(x => int.Parse(x)).ToArray();
 
                     int tagIdRaw = repeatingImagesInfoParts[0];
-                    Guid? tagId = tagIdRaw == (int)Tags.Cicle ? circleTagId : xTagId;
+                    Guid? tagId = tagIds[tagIdRaw];
 
                     if (tagId.HasValue)
                     {
@@ -225,7 +258,7 @@ namespace CustomVision
             });
         }
 
-        private static void AddLabeledRegionsFromXML(ConcurrentDictionary<string, List<Region>> imgNamesToLabelRegions, Guid circleTagId, Guid xTagId)
+        private static void AddLabeledRegionsFromXML(ConcurrentDictionary<string, List<Region>> imgNamesToLabelRegions, Nullable<Guid>[] tagIds)
         {
             Parallel.ForEach(Directory.GetFiles(@"../../../Resources/Training_Labels"), (path) => {
 
@@ -239,7 +272,7 @@ namespace CustomVision
 
                 foreach (var lblXML in labelsDocRoot.Elements("object"))
                 {
-                    string tagName = int.Parse(lblXML.Element("name").Value) == 0 ? Tags.Cicle.GetDescription() : Tags.X.GetDescription();
+                    int tagIndex = int.Parse(lblXML.Element("name").Value);
 
                     var labelBoundaryBox = lblXML.Element("bndbox");
                     var minMaxCoordinatesX = ReturnMinAndMaxCoordinate("x", labelBoundaryBox);
@@ -253,7 +286,7 @@ namespace CustomVision
 
                     imgNamesToLabelRegions[fileName].Add(new Region()
                     {
-                        TagId = tagName == Tags.Cicle.GetDescription() ? circleTagId : xTagId,
+                        TagId = tagIds[tagIndex].Value,
                         Left = (double)left,
                         Top = (double)top,
                         Width = (double)width,
