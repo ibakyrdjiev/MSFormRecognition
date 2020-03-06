@@ -15,6 +15,7 @@
     {
         //TODO REMOVE THIS AFTER DB CONNECTION - this is only for testing
         private List<Question> questions = new List<Question>();
+
         public List<string> textLines = new List<string>();
         public List<SkipData> skipData = new List<SkipData>();
         public List<Answer> answers = new List<Answer>();
@@ -22,7 +23,7 @@
         public QuestionMapperService(ILogger logger) : base(logger)
         {
             //todo add repo here
-            this.questions = Utils.GetFakeQuestions(); 
+            this.questions = Utils.GetFakeQuestions();
             this.skipData = Utils.GetSkippedData();
             this.answers = Utils.GetAnswers(questions);
         }

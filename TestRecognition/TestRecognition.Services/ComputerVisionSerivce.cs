@@ -41,7 +41,6 @@
             while ((results.Status == TextOperationStatusCodes.Running ||
                 results.Status == TextOperationStatusCodes.NotStarted) && i++ < maxRetries);
 
-
             var textRecognitionResult = results.RecognitionResults.First();
             //We are processing only one page this maybe is unessary
             //var result = this.MapResultLines(textRecognitionLocalFileResults);

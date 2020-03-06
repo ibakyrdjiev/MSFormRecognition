@@ -6,11 +6,11 @@ namespace TestRecognition.Dto
     public class Answer
     {
         public int Id { get; set; }
-        
+
         public string Text { get; set; }
 
         public bool IsCorrect { get; set; }
-        
+
         public virtual ICollection<Question> Questions { get; set; }
     }
 
@@ -21,7 +21,7 @@ namespace TestRecognition.Dto
         public virtual ICollection<Question> Questions { get; set; }
 
         //TODO ask if question answers can be less than related answers in db.
-               
+
         public virtual ICollection<SkipData> SkipData { get; set; }
     }
 

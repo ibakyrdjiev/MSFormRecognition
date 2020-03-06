@@ -1,6 +1,5 @@
 ﻿namespace TestRecognition.Services
 {
-    using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
     using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction;
     using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.Models;
     using Microsoft.Extensions.Logging;
@@ -52,7 +51,6 @@
             List<Rectangle> predictedRectanglePositions = new List<Rectangle>();
             foreach (var predictionModel in predictions)
             {
-
                 var area = ConvertToPixelAreas(predictionModel, documentWidth, documentHeight);
                 predictedRectanglePositions.Add(area);
             }

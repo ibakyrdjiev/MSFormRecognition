@@ -16,7 +16,5 @@
         public ICollection<Question> ChildQuestions { get; set; }
 
         public List<string> MetaData { get; set; }
-
-        
     }
 }
