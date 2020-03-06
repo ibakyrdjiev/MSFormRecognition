@@ -22,7 +22,7 @@
         public QuestionMapperService(ILogger logger) : base(logger)
         {
             //todo add repo here
-            this.questions = Utils.GetFakeQuestions();
+            this.questions = Utils.GetFakeQuestions(); 
             this.skipData = Utils.GetSkippedData();
             this.answers = Utils.GetAnswers(questions);
         }
@@ -30,7 +30,8 @@
         public List<ExtractedQuestion> MapQuestionsAndAnswers(ScannedPageDto scanneedPage)
         {
             var result = new List<ExtractedQuestion>();
-            ProccessQueue(result, scanneedPage.ScannedLinesQueue);
+            var queue = new Queue<ScannedLine>(scanneedPage.ScannedLinesQueue);
+            ProccessQueue(result, queue);
             return result;
         }
 

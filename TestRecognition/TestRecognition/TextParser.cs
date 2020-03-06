@@ -26,7 +26,6 @@ namespace TestRecognition
         {
             var stream = await this.blobService.GetBlobStream(blobModel.BlobName);
             var result = await this.computerVisionSerivce.GetBlobTextContent(stream);
-            result.BlobName = blobModel.BlobName;
             return new OkObjectResult(result);
         }
     }
