@@ -7,6 +7,7 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using TestRecognition.Core.Services;
@@ -19,7 +20,7 @@
         private readonly CustomVisionPredictionClient customVisionPredictionClient;
         private readonly IBlobService blobService;
         private const string publishedModelName = "JAEEDemo";
-        private Guid projectId = new Guid("8b4cb793-e9e4-4e37-b6d1-30548db1a6ca");
+        private Guid projectId = new Guid("fa4660ce-7d7e-4d6b-8758-14767632503f");
 
         public AnswerRecognitionService(ILogger logger, CustomVisionPredictionClient customVisionPredictionClient, IBlobService blobService) : base(logger)
         {
@@ -38,7 +39,7 @@
 
         public async Task<List<PredictionModel>> MakePrediction(string blobName)
         {
-            var imageStream = await blobService.GetBlobStream(blobName);
+            Stream imageStream = await blobService.GetBlobStream(blobName);
             var result = await this.customVisionPredictionClient.DetectImageAsync(projectId, publishedModelName, imageStream);
 
             return result.Predictions
