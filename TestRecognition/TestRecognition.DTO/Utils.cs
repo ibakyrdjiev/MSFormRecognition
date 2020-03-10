@@ -126,6 +126,87 @@
 
             questions.Add(seventh);
 
+            var eight = new Question()
+            {
+                Text = "Which of the following is a source of a successful product and service idea?",
+                QuestionAnswerType = QuestionAnswerType.Vertical,
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        Text = "An idea that solves a problem"
+                    },
+                    new Answer()
+                    {
+                        Text = "An idea that changes or improves a current product or service"
+                    },
+                    new Answer()
+                    {
+                        Text = "An idea that develops from the entrepreneur's firsthand knowledge of a group "
+                    },
+                    new Answer()
+                    {
+                        Text = "All of the above"
+                    }
+                }
+            };
+
+            questions.Add(eight);
+
+            var ninth = new Question()
+            {
+                Text = "Which of the following is the best definition of demographic?",
+                QuestionAnswerType = QuestionAnswerType.Vertical,
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        Text = "The means by which a product or service is made known and sold to customers"
+                    },
+                    new Answer()
+                    {
+                        Text = "A group that shares characteristics that is used to identify consumer markets"
+                    },
+                    new Answer()
+                    {
+                        Text = "The expectations and behaviors of a business that set it apart from its competitors through improvements in quality, value, or delivery"
+                    },
+                    new Answer()
+                    {
+                        Text = "None of the above"
+                    }
+                }
+            };
+
+            questions.Add(ninth);
+
+            var tenth = new Question()
+            {
+                Text = "Gloria has designed a new line of jewelry and wants to begin marketing her jewelry in her town. Which choice best describes what Gloria will be doing?",
+                QuestionAnswerType = QuestionAnswerType.Vertical,
+                Answers = new List<Answer>()
+                {
+                    new Answer()
+                    {
+                        Text = "Making her product known and selling it to customers"
+                    },
+                    new Answer()
+                    {
+                        Text = "Creating a new product for a group sharing characteristics that is used to identify consumer markets"
+                    },
+                    new Answer()
+                    {
+                        Text = "Creating expectations and behaviors for her business that set it apart from its competitors through improvements in quality, value, or delivery"
+                    },
+                    new Answer()
+                    {
+                        Text = "Developing a new product or service, or improving on an existing product or service"
+                    }
+                }
+            };
+
+            questions.Add(tenth);
+
             return questions;
         }
 
