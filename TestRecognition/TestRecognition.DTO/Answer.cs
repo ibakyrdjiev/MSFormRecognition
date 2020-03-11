@@ -9,6 +9,8 @@ namespace TestRecognition.Dto
 
         public string Text { get; set; }
 
+        public List<string> TextVariations { get; set; }
+
         public bool IsCorrect { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }

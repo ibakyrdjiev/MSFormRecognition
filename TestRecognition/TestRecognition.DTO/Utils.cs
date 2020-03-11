@@ -9,103 +9,103 @@
         {
             var questions = new List<Question>();
 
-            var first = new Question();
-            first.QuestionAnswerType = QuestionAnswerType.Vertical;
-            first.Answers = new List<Answer>();
-            first.Text = "Of the following steps, which would be the first step in financial planning?";
-            first.Answers.Add(new Answer() { Text = "Get a job so you can start earning money." });
-            first.Answers.Add(new Answer() { Text = "Determine your needs and goals for the future." });
-            first.Answers.Add(new Answer() { Text = "Starting looking for a home to buy." });
-            first.Answers.Add(new Answer() { Text = " Save a portion of your money for the future." });
-            questions.Add(first);
+            //var first = new Question();
+            //first.QuestionAnswerType = QuestionAnswerType.Vertical;
+            //first.Answers = new List<Answer>();
+            //first.Text = "Of the following steps, which would be the first step in financial planning?";
+            //first.Answers.Add(new Answer() { Text = "Get a job so you can start earning money." });
+            //first.Answers.Add(new Answer() { Text = "Determine your needs and goals for the future." });
+            //first.Answers.Add(new Answer() { Text = "Starting looking for a home to buy." });
+            //first.Answers.Add(new Answer() { Text = " Save a portion of your money for the future." });
+            //questions.Add(first);
 
-            var second = new Question();
-            second.QuestionAnswerType = QuestionAnswerType.Vertical;
-            second.Answers = new List<Answer>();
-            second.Text = "The best predictor of how much money you will make in the future is the you choose.";
-            second.Answers.Add(new Answer() { Text = "skills" });
-            second.Answers.Add(new Answer() { Text = "connections" });
-            second.Answers.Add(new Answer() { Text = "education" });
-            second.Answers.Add(new Answer() { Text = "all of the above" });
-            questions.Add(second);
+            //var second = new Question();
+            //second.QuestionAnswerType = QuestionAnswerType.Vertical;
+            //second.Answers = new List<Answer>();
+            //second.Text = "The best predictor of how much money you will make in the future is the you choose.";
+            //second.Answers.Add(new Answer() { Text = "skills" });
+            //second.Answers.Add(new Answer() { Text = "connections" });
+            //second.Answers.Add(new Answer() { Text = "education" });
+            //second.Answers.Add(new Answer() { Text = "all of the above" });
+            //questions.Add(second);
 
-            var third = new Question()
-            {
-                QuestionAnswerType = QuestionAnswerType.Vertical,
-                Text = "Which of the following should you remember when developing a savings plan?",
-                Answers = new List<Answer>()
-                {
-                    new Answer()
-                    {
-                        Text = "Wait until you are 40 years old before saving."
-                    },
-                    new Answer()
-                    {
-                        Text = "Pay yourself first."
-                    },
-                    new Answer()
-                    {
-                        Text = "Pay off your low-interest debt first."
-                    },
-                    new Answer()
-                    {
-                        Text = "Have only high-risk investments."
-                    }
-                }
-            };
-            questions.Add(third);
+            //var third = new Question()
+            //{
+            //    QuestionAnswerType = QuestionAnswerType.Vertical,
+            //    Text = "Which of the following should you remember when developing a savings plan?",
+            //    Answers = new List<Answer>()
+            //    {
+            //        new Answer()
+            //        {
+            //            Text = "Wait until you are 40 years old before saving."
+            //        },
+            //        new Answer()
+            //        {
+            //            Text = "Pay yourself first."
+            //        },
+            //        new Answer()
+            //        {
+            //            Text = "Pay off your low-interest debt first."
+            //        },
+            //        new Answer()
+            //        {
+            //            Text = "Have only high-risk investments."
+            //        }
+            //    }
+            //};
+            //questions.Add(third);
 
-            var fourth = new Question()
-            {
-                QuestionAnswerType = QuestionAnswerType.Vertical,
-                Text = "All of the following are elements of financial planning except one. Which one is NOT?",
-                Answers = new List<Answer>()
-                {
-                    new Answer()
-                    {
-                        Text = "Earn money"
-                    },
-                    new Answer()
-                    {
-                        Text = "Save money"
-                    },
-                    new Answer()
-                    {
-                        Text = "Never use credit"
-                    },
-                    new Answer()
-                    {
-                        Text = "Spend money wisely"
-                    }
-                }
-            };
-            questions.Add(fourth);
+            //var fourth = new Question()
+            //{
+            //    QuestionAnswerType = QuestionAnswerType.Vertical,
+            //    Text = "All of the following are elements of financial planning except one. Which one is NOT?",
+            //    Answers = new List<Answer>()
+            //    {
+            //        new Answer()
+            //        {
+            //            Text = "Earn money"
+            //        },
+            //        new Answer()
+            //        {
+            //            Text = "Save money"
+            //        },
+            //        new Answer()
+            //        {
+            //            Text = "Never use credit"
+            //        },
+            //        new Answer()
+            //        {
+            //            Text = "Spend money wisely"
+            //        }
+            //    }
+            //};
+            //questions.Add(fourth);
 
-            var fith = new Question()
-            {
-                QuestionAnswerType = QuestionAnswerType.Vertical,
-                Text = "Alan has created a new budget. Which of the following should he NOT do?",
-                Answers = new List<Answer>()
-                {
-                    new Answer()
-                    {
-                        Text = "Have a spending plan."
-                    },
-                    new Answer()
-                    {
-                        Text = "Spend less than he earns."
-                    },
-                    new Answer()
-                    {
-                        Text = "Use credit for all items not in his budget."
-                    },
-                    new Answer()
-                    {
-                        Text = "Stick to his budget"
-                    }
-                }
-            };
-            questions.Add(fith);
+            //var fith = new Question()
+            //{
+            //    QuestionAnswerType = QuestionAnswerType.Vertical,
+            //    Text = "Alan has created a new budget. Which of the following should he NOT do?",
+            //    Answers = new List<Answer>()
+            //    {
+            //        new Answer()
+            //        {
+            //            Text = "Have a spending plan."
+            //        },
+            //        new Answer()
+            //        {
+            //            Text = "Spend less than he earns."
+            //        },
+            //        new Answer()
+            //        {
+            //            Text = "Use credit for all items not in his budget."
+            //        },
+            //        new Answer()
+            //        {
+            //            Text = "Stick to his budget"
+            //        }
+            //    }
+            //};
+            //questions.Add(fith);
 
             var sixth = new Question()
             {
@@ -125,6 +125,74 @@
             };
 
             questions.Add(seventh);
+
+            var question2_09 = new Question()
+            {
+                OrderNumber = 1,
+                QuestionType = QuestionType.Questionnaire,
+                Text = "Which of the following is the source of a successful product and service idea?",
+                QuestionAnswerType = QuestionAnswerType.Vertical,
+                Answers = new List<Answer> 
+                { 
+                    new Answer{ Text = "An idea that solves the problem"},
+                    new Answer{ Text = "An idea that changes or improves a current product or service"},
+                    new Answer{ Text = "An idea that develops from the enterpreneur's first hand knoledge of a group"},
+                    new Answer{ Text = "All of the above"}
+                },
+            };
+
+            questions.Add(question2_09);
+
+            question2_09 = new Question()
+            {
+                OrderNumber = 3,
+                QuestionType = QuestionType.PersonalInfo,
+                Text = "What grade are you in?",
+                QuestionAnswerType = QuestionAnswerType.Inline,
+                Answers = new List<Answer>
+                {
+                    new Answer{ Text = "9th", TextVariations = new List<string>{ "oth", "9th" }},
+                    new Answer{ Text = "10th"},
+                    new Answer{ Text = "11th", TextVariations = new List<string>{ "11th", "011th" }},
+                    new Answer{ Text = "12th"},
+                },
+            };
+
+            questions.Add(question2_09);
+
+            question2_09 = new Question()
+            {
+                OrderNumber = 2,
+                QuestionType = QuestionType.Questionnaire,
+                Text = "Which of the following is the best definiyion of demographic?",
+                QuestionAnswerType = QuestionAnswerType.Inline,
+                Answers = new List<Answer>
+                {
+                    new Answer{ Text = "The means by which the product or service is made known and sold to the customers"},
+                    new Answer{ Text = "A group that shares characteristics that is used to identify consumer markets"},
+                    new Answer{ Text = "The expectations and behaviours of a business that set it apart from its competitors through improvements in quality, value, or delivery"},
+                    new Answer{ Text = "None of the above"},
+                },
+            };
+
+            questions.Add(question2_09);
+
+            question2_09 = new Question()
+            {
+                OrderNumber = 3,
+                QuestionType = QuestionType.Questionnaire,
+                Text = "Gloria has designed a new line of jewelry and wants to begin marketing hre jewelry in her town. Which choice best describes what Gloria will be doing?",
+                QuestionAnswerType = QuestionAnswerType.Inline,
+                Answers = new List<Answer>
+                {
+                    new Answer{ Text = "Making her product known and selling to the customers"},
+                    new Answer{ Text = "Creating a new product for a group sharing characteristics that is used to identify consumer markets"},
+                    new Answer{ Text = "Creating expectations and behaviors for her business that set it apart from its competitors through improvements in quality, value, or delivery"},
+                    new Answer{ Text = "Developing a new product or service, or improving on an existing product or service"},
+                },
+            };
+
+            questions.Add(question2_09);
 
             return questions;
         }

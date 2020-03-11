@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TestRecognition.DTO\TestRecognition.Dto.csproj" />
+    <ProjectReference Include="..\TestRecognition.Extensions\TestRecognition.Extensions.csproj" />
     <ProjectReference Include="..\TestRecognition.Startup\TestRecognition.Core.csproj" />
   </ItemGroup>
 

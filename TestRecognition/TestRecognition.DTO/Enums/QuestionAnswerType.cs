@@ -5,6 +5,9 @@
         Vertical,
         Inline,
         Table,
+        Nested,
+        NameIdentity,
+        BirthIdentity,
         FreeText
     }
 }

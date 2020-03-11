@@ -21,5 +21,7 @@
         public bool IsAnswered { get; set; }
 
         public bool? IsAnsweredCorectly { get; set; }
+
+        public int OrderNumber { get; set; }
     }
 }

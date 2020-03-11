@@ -9,5 +9,7 @@ namespace TestRecognition.Dto
         public string Text { get; set; }
 
         public List<Word> Words { get; set; }
+
+        public bool IsUseful { get; set; }
     }
 }
