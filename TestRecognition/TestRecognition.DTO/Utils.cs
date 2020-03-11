@@ -128,8 +128,6 @@
 
             var question2_09 = new Question()
             {
-                OrderNumber = 1,
-                QuestionType = QuestionType.Questionnaire,
                 Text = "Which of the following is the source of a successful product and service idea?",
                 QuestionAnswerType = QuestionAnswerType.Vertical,
                 Answers = new List<Answer> 
@@ -145,15 +143,13 @@
 
             question2_09 = new Question()
             {
-                OrderNumber = 3,
-                QuestionType = QuestionType.PersonalInfo,
                 Text = "What grade are you in?",
                 QuestionAnswerType = QuestionAnswerType.Inline,
                 Answers = new List<Answer>
                 {
-                    new Answer{ Text = "9th", TextVariations = new List<string>{ "oth", "9th" }},
+                    new Answer{ Text = "9th"},
                     new Answer{ Text = "10th"},
-                    new Answer{ Text = "11th", TextVariations = new List<string>{ "11th", "011th" }},
+                    new Answer{ Text = "11th"},
                     new Answer{ Text = "12th"},
                 },
             };
@@ -162,8 +158,6 @@
 
             question2_09 = new Question()
             {
-                OrderNumber = 2,
-                QuestionType = QuestionType.Questionnaire,
                 Text = "Which of the following is the best definiyion of demographic?",
                 QuestionAnswerType = QuestionAnswerType.Inline,
                 Answers = new List<Answer>
@@ -179,9 +173,7 @@
 
             question2_09 = new Question()
             {
-                OrderNumber = 3,
-                QuestionType = QuestionType.Questionnaire,
-                Text = "Gloria has designed a new line of jewelry and wants to begin marketing hre jewelry in her town. Which choice best describes what Gloria will be doing?",
+                Text = "Gloria has designed a new line of jewelry and wants to begin marketing her jewelry in her town. Which choice best describes what Gloria will be doing?",
                 QuestionAnswerType = QuestionAnswerType.Inline,
                 Answers = new List<Answer>
                 {

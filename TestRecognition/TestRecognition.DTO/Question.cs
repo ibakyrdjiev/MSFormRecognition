@@ -7,10 +7,6 @@
     {
         public int Id { get; set; }
 
-        public int OrderNumber { get; set; }
-
-        public QuestionType QuestionType { get; set; }
-
         public string Text { get; set; }
 
         public List<Answer> Answers { get; set; }

@@ -69,7 +69,6 @@
                         case QuestionAnswerType.Inline:
                             extractedQuestion = ExtractQuestion(relatedQuestion, originalLine, originalQueue, currentLineNumber);
                             break;
-
                         case QuestionAnswerType.Table:
                             extractedQuestion = ExtractTableQuestion(relatedQuestion, originalLine, originalQueue);
                             break;
@@ -187,14 +186,6 @@
                             var potencialAnswerInWord = answer.Words[i].Value.ToLower().FuzzyEquals(predefinedAnswer.Text.ToLower())
                             ? answer.Words[i]
                             : null;
-
-                            //If not matched, check in the collection of predefined possible answers
-                            if (potencialAnswerInWord == null)
-                            {
-                                potencialAnswerInWord = answer.Words[i].Value.FuzzyEqualsCollection(predefinedAnswer.TextVariations)
-                                ? answer.Words[i]
-                                : null;
-                            }
 
                             if (potencialAnswerInWord != null)
                             {
